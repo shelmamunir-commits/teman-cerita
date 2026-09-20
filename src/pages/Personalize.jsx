@@ -132,7 +132,7 @@ export default function Personalize() {
                 </div>
               </div>
               <p className="mt-4 text-[13px] text-slate-500 dark:text-slate-400">
-                BRIDGE-AI akan menyusun urutan langkah berdasarkan kategori hasilmu dan pilihan ini.
+                Teman Cerita akan menyusun urutan langkah berdasarkan kategori hasilmu dan pilihan ini.
               </p>
             </Card>
           </motion.div>

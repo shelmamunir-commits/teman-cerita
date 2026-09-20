@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { MapPin, Loader2, Navigation } from 'lucide-react'
 import { cn } from '../../lib/cn.js'
 
@@ -9,7 +9,7 @@ const TYPES = [
 
 export default function NearbyMap() {
   const [coords, setCoords] = useState(null)
-  const [status, setStatus] = useState('loading') // loading | ready | denied | unsupported
+  const [status, setStatus] = useState('idle') // idle | loading | ready | denied | unsupported
   const [type, setType] = useState(TYPES[0].id)
 
   const locate = () => {
@@ -27,11 +27,6 @@ export default function NearbyMap() {
       { timeout: 10000, enableHighAccuracy: false },
     )
   }
-
-  useEffect(() => {
-    locate()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
 
   const q = encodeURIComponent(type)
   const src = coords
@@ -70,6 +65,13 @@ export default function NearbyMap() {
       {status === 'loading' && (
         <div className="flex items-center justify-center gap-2 py-16 text-slate-400">
           <Loader2 size={18} className="animate-spin" /> Mencari lokasimu…
+        </div>
+      )}
+
+      {status === 'idle' && (
+        <div className="text-[12.5px] text-slate-500 dark:text-slate-400 py-3 flex items-start gap-2">
+          <MapPin size={15} className="mt-0.5 shrink-0 text-brand" />
+          <span>Peta menampilkan hasil umum. Gunakan lokasimu hanya jika ingin mencari layanan yang lebih dekat.</span>
         </div>
       )}
 

@@ -1,11 +1,10 @@
-# bridge-ai
-BRIDGE-AI bridges the gap between health screening results (CKG) and meaningful next steps. It helps users understand what their results mean, delivers a personalized psychoeducation pathway tailored to their needs, and provides clear guidance on where to seek help when it matters most.
-=======
-# BRIDGE-AI
+# Teman Cerita
 
-Menjembatani hasil skrining kesehatan (CKG) menjadi langkah nyata — psikoedukasi personal, aktivitas 5 menit, dan arah bantuan yang tepat untuk remaja.
+Ruang aman dari Pesma Nur Alannur untuk memahami hasil skrining kesehatan (CKG), merawat diri melalui psikoedukasi personal dan aktivitas sederhana, serta menemukan arah bantuan yang tepat.
 
 > **Disclaimer:** Prototipe konsep. Seluruh "AI" disimulasikan lewat rule engine di frontend — bukan model terlatih, bukan alat diagnosis, dan bukan pengganti psikolog/tenaga kesehatan.
+
+© Teman Cerita · Pesma Nur Alannur — dikembangkan oleh **Shelma Nasywa Ramadhani Munir** dan **Ahmad Zainul Khofi**.
 
 ## Stack
 
@@ -51,7 +50,7 @@ src/
 ## Fitur
 
 1. **My CKG Result** — input kode hasil skrining
-2. **Understand My Result** — penjelasan AI (streaming) + radar chart
+2. **Understand My Result** — penjelasan berbasis aturan (streaming) + radar chart
 3. **My Mental Health Pathway** — jalur personal (wizard multi-langkah)
 4. **What Can I Do?** — modul psikoedukasi + aktivitas 5 menit
 5. **Where Can I Get Help?** — tangga rujukan + hotline
@@ -61,4 +60,3 @@ src/
 9. **Latihan napas interaktif** — animasi 4-7-8
 10. **Dashboard psikolog/guru** — simulasi kasus prioritas
 11. **Dark mode**
->>>>>>> 10cb2ac (first commit)

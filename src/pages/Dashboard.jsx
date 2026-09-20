@@ -52,7 +52,7 @@ export default function Dashboard() {
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url
-    a.download = 'rekap-kasus-bridge-ai.csv'
+    a.download = 'rekap-kasus-teman-cerita.csv'
     a.click()
     URL.revokeObjectURL(url)
   }
@@ -74,7 +74,7 @@ export default function Dashboard() {
         <div>
           <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">Dashboard Sekolah</h1>
           <p className="mt-2 text-[14px] text-slate-500 dark:text-slate-400">
-            Kasus terurut otomatis berdasarkan prioritas AI. Tampilan berbeda tergantung peran.
+            Simulasi lokal: kasus terurut otomatis berdasarkan prioritas rule engine. Tampilan berbeda tergantung peran.
           </p>
         </div>
 
@@ -208,13 +208,27 @@ export default function Dashboard() {
 }
 
 function CaseDetail({ caseItem, role, onBack, updateCase }) {
-  const [note, setNote] = useState('')
-  const [parentInvolve, setParentInvolve] = useState(false)
-  const [decision, setDecision] = useState('')
+  const [note, setNote] = useState(caseItem.psychologistNote || '')
+  const [parentInvolve, setParentInvolve] = useState(!!caseItem.parentInvolve)
+  const [decision, setDecision] = useState(caseItem.decision || '')
   const [sent, setSent] = useState(false)
 
   const send = () => {
-    updateCase(caseItem.id, { status: 'Sudah divalidasi', isNew: false })
+    if (!decision) return
+    const urgency = decision === 'Naikkan prioritas'
+      ? caseItem.urgency === 'low' ? 'mid' : 'high'
+      : decision === 'Turunkan prioritas'
+        ? caseItem.urgency === 'high' ? 'mid' : 'low'
+        : caseItem.urgency
+    updateCase(caseItem.id, {
+      status: 'Sudah divalidasi',
+      isNew: false,
+      urgency,
+      decision,
+      psychologistNote: note.trim(),
+      parentInvolve,
+      reviewedAt: new Date().toISOString(),
+    })
     setSent(true)
   }
 
@@ -258,7 +272,7 @@ function CaseDetail({ caseItem, role, onBack, updateCase }) {
             <DomainBars domainScores={caseItem.domainScores} />
 
             <div className="mt-6">
-              <SectionLabel>Catatan dari AI</SectionLabel>
+              <SectionLabel>Catatan dari sistem</SectionLabel>
               <ul className="space-y-2">
                 {(caseItem.why || []).map((w, i) => (
                   <li key={i} className="flex gap-2 text-[13.5px] text-slate-600 dark:text-slate-300">
@@ -273,7 +287,7 @@ function CaseDetail({ caseItem, role, onBack, updateCase }) {
               <ol className="relative border-l-2 border-slate-200 dark:border-slate-700 ml-2 space-y-4">
                 {[
                   { t: 'Skrining diterima', d: 'Hasil skrining masuk ke sistem', done: true },
-                  { t: 'Prioritas AI ditentukan', d: `Kategori ${CATEGORY_META[caseItem.urgency].label.toLowerCase()} oleh rule engine`, done: true },
+                  { t: 'Prioritas sistem ditentukan', d: `Kategori ${CATEGORY_META[caseItem.urgency].label.toLowerCase()} oleh rule engine`, done: true },
                   { t: 'Ditinjau psikolog', d: caseItem.status === 'Sudah divalidasi' ? 'Kasus telah divalidasi' : 'Menunggu validasi', done: caseItem.status === 'Sudah divalidasi' },
                 ].map((step, i) => (
                   <li key={i} className="relative pl-5">
@@ -293,7 +307,7 @@ function CaseDetail({ caseItem, role, onBack, updateCase }) {
             <div className="mt-6">
               <SectionLabel>Keputusan psikolog</SectionLabel>
               <div className="flex flex-wrap gap-2">
-                {['Setujui skor AI', 'Naikkan prioritas', 'Turunkan prioritas'].map((a) => (
+                {['Setujui skor sistem', 'Naikkan prioritas', 'Turunkan prioritas'].map((a) => (
                   <button
                     key={a}
                     onClick={() => {
@@ -334,7 +348,8 @@ function CaseDetail({ caseItem, role, onBack, updateCase }) {
             </div>
 
             <div className="flex flex-wrap gap-3 mt-6">
-              <Button onClick={send}>Kirim rekomendasi tindak lanjut</Button>
+              <Button onClick={send} disabled={!decision}>Kirim rekomendasi tindak lanjut</Button>
+              {!decision && <span className="self-center text-xs text-slate-400">Pilih keputusan terlebih dahulu.</span>}
               {sent && (
                 <span className="self-center text-sm font-bold text-emerald-600 dark:text-emerald-400">
                   ✓ Status kasus diperbarui.

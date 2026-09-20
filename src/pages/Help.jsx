@@ -41,18 +41,21 @@ export default function Help() {
           <div className="text-2xl font-extrabold tracking-tight">{HOTLINE.number}</div>
           <div className="text-[12.5px] text-white/70">{HOTLINE.desc}</div>
         </div>
-        <Link to="/safety" className="ml-auto">
-          <button className="rounded-full border border-white/30 px-4 py-2 text-sm font-bold hover:bg-white/10 transition">
+        <div className="ml-auto flex flex-wrap gap-2">
+          <a href={HOTLINE.url} target="_blank" rel="noreferrer" className="rounded-full bg-white text-slate-900 px-4 py-2 text-sm font-bold hover:bg-emerald-50 transition">
+            Buka Healing119.id
+          </a>
+          <Link to="/safety" className="rounded-full border border-white/30 px-4 py-2 text-sm font-bold hover:bg-white/10 transition">
             Kondisi darurat?
-          </button>
-        </Link>
+          </Link>
+        </div>
       </div>
 
       <div className="mt-5">
         <div className="text-[11px] font-extrabold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-3">
           Nomor darurat
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
           {EMERGENCY_NUMBERS.map((n) => (
             <a
               key={n.number}
@@ -77,12 +80,20 @@ export default function Help() {
           <span className="font-bold text-slate-900 dark:text-white">Layanan terdekat di sekitarmu</span>
         </div>
         <NearbyMap />
+        <p className="mt-3 text-[11px] leading-relaxed text-slate-400">
+          Peta memakai layanan Google Maps. Lokasi hanya dibagikan ke Google setelah kamu memilih tombol “Gunakan lokasiku”.
+        </p>
       </Card>
 
       <div className="mt-5 rounded-2xl border border-blue-200/60 dark:border-blue-500/30 bg-blue-50/60 dark:bg-blue-500/5 p-5 text-[12.5px] leading-relaxed text-slate-600 dark:text-slate-300">
         <b className="text-brand-deep dark:text-brand">Kenali tanda darurat:</b> pikiran untuk menyakiti diri atau
         mengakhiri hidup, merasa nggak bisa mengendalikan diri, atau dalam krisis. Kalau iya, jangan ditunda — buka
         halaman bantuan darurat.
+        <div className="mt-2">
+          <a href="https://kesprimkom.kemkes.go.id/konten/158/151/0/cegah-bunuh-diri-dukung-kesehatan-jiwa-kenali-layanan-healing119-id" target="_blank" rel="noreferrer" className="font-bold underline text-brand-deep dark:text-brand">
+            Informasi resmi Healing119.id dari Kementerian Kesehatan
+          </a>
+        </div>
       </div>
 
       <div className="mt-6">

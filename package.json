@@ -1,7 +1,8 @@
 {
-  "name": "bridge-ai",
+  "name": "teman-cerita",
   "private": true,
   "version": "0.1.0",
+  "author": "Shelma Nasywa Ramadhani Munir dan Ahmad Zainul Khofi",
   "type": "module",
   "scripts": {
     "dev": "vite",

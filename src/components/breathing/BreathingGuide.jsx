@@ -13,21 +13,33 @@ export default function BreathingGuide() {
   const [running, setRunning] = useState(false)
   const [phase, setPhase] = useState(0)
   const [count, setCount] = useState(1)
+  const [remaining, setRemaining] = useState(PHASES[0].seconds)
+  const [completed, setCompleted] = useState(false)
   const timer = useRef(null)
 
   useEffect(() => {
     if (!running) return
-    const current = PHASES[phase]
     timer.current = setTimeout(() => {
-      if (phase === PHASES.length - 1) {
-        setPhase(0)
-        setCount((c) => c + 1)
+      if (remaining > 1) {
+        setRemaining((value) => value - 1)
+      } else if (phase === PHASES.length - 1) {
+        if (count >= 4) {
+          setRunning(false)
+          setCompleted(true)
+          setRemaining(0)
+        } else {
+          setPhase(0)
+          setCount((value) => value + 1)
+          setRemaining(PHASES[0].seconds)
+        }
       } else {
-        setPhase((p) => p + 1)
+        const next = phase + 1
+        setPhase(next)
+        setRemaining(PHASES[next].seconds)
       }
-    }, current.seconds * 1000)
+    }, 1000)
     return () => clearTimeout(timer.current)
-  }, [running, phase])
+  }, [running, phase, remaining, count])
 
   const stop = () => {
     setRunning(false)
@@ -38,6 +50,14 @@ export default function BreathingGuide() {
     stop()
     setPhase(0)
     setCount(1)
+    setRemaining(PHASES[0].seconds)
+    setCompleted(false)
+  }
+
+  const start = () => {
+    if (completed) reset()
+    setCompleted(false)
+    setRunning(true)
   }
 
   const current = PHASES[phase]
@@ -61,20 +81,22 @@ export default function BreathingGuide() {
           transition={{ duration: current.seconds, ease: 'easeInOut' }}
         >
           <div className="text-white">
-            <div className="text-sm font-semibold opacity-90">{running ? current.label : 'Siap?'}</div>
-            <div className="text-3xl font-bold font-display">{running ? current.seconds : '4-7-8'}</div>
+            <div className="text-sm font-semibold opacity-90">{running ? current.label : completed ? 'Selesai' : 'Siap?'}</div>
+            <div className="text-3xl font-bold font-display">{running ? remaining : completed ? '✓' : '4-7-8'}</div>
           </div>
         </motion.div>
       </div>
 
       <p className="text-sm text-slate-500 dark:text-slate-400 mb-6">
-        Teknik pernapasan <b>4–7–8</b> untuk menenangkan tubuh. Siklus ke-{count}.
+        {completed
+          ? 'Empat siklus selesai. Perhatikan apakah tubuhmu terasa sedikit lebih tenang.'
+          : <>Teknik pernapasan <b>4–7–8</b> untuk menenangkan tubuh. Siklus {count} dari 4.</>}
       </p>
 
       <div className="flex items-center justify-center gap-3">
         {!running ? (
-          <Button onClick={() => setRunning(true)}>
-            <Play size={16} /> Mulai
+          <Button onClick={start}>
+            <Play size={16} /> {completed ? 'Ulangi' : phase !== 0 || remaining !== PHASES[0].seconds ? 'Lanjut' : 'Mulai'}
           </Button>
         ) : (
           <Button variant="secondary" onClick={stop}>

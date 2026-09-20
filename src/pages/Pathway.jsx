@@ -17,7 +17,7 @@ export default function Pathway() {
         Ini jalurmu{name ? `, ${name}` : ''}
       </h1>
       <p className="mt-2 text-[14.5px] text-slate-500 dark:text-slate-400 leading-relaxed">
-        Berdasarkan hasil skrining dan pilihan kamu, BRIDGE-AI menyusun urutan langkah ini. Kerjakan pelan-pelan, nggak
+        Berdasarkan hasil skrining dan pilihan kamu, Teman Cerita menyusun urutan langkah ini. Kerjakan pelan-pelan, nggak
         harus sekaligus.
       </p>
 

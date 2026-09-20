@@ -11,10 +11,10 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.svg'],
       manifest: {
-        name: 'BRIDGE-AI — Pahami Hasil Skriningmu',
-        short_name: 'BRIDGE-AI',
+        name: 'Teman Cerita — Pesma Nur Alannur',
+        short_name: 'Teman Cerita',
         description:
-          'Menjembatani hasil skrining kesehatan (CKG) menjadi langkah nyata: psikoedukasi personal, aktivitas 5 menit, dan arah bantuan.',
+          'Ruang aman dari Pesma Nur Alannur untuk memahami diri, merawat kesehatan mental, dan menemukan bantuan.',
         theme_color: '#128f8a',
         background_color: '#f5f6f7',
         display: 'standalone',

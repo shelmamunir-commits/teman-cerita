@@ -1,13 +1,13 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Send, Sparkles, Mic, MicOff, Volume2, VolumeX } from 'lucide-react'
+import { Send, Sparkles, Mic, MicOff, Volume2, VolumeX, Trash2 } from 'lucide-react'
 import { useChat } from '../../context/ChatContext.jsx'
 import useSpeechRecognition from '../../hooks/useSpeechRecognition.js'
 import useSpeechSynthesis from '../../hooks/useSpeechSynthesis.js'
 import { cn } from '../../lib/cn.js'
 
 export default function ChatWidget() {
-  const { messages, typing, send } = useChat()
+  const { messages, typing, send, clear } = useChat()
   const inputRef = useRef(null)
   const endRef = useRef(null)
   const lastSpokenRef = useRef(-1)
@@ -100,8 +100,8 @@ export default function ChatWidget() {
                       <a
                         key={j}
                         href={a.href}
-                        target="_blank"
-                        rel="noreferrer"
+                        target={a.href.startsWith('http') ? '_blank' : undefined}
+                        rel={a.href.startsWith('http') ? 'noreferrer' : undefined}
                         className="rounded-full bg-white dark:bg-slate-600 border border-brand text-brand-deep dark:text-white text-xs font-semibold px-3 py-1.5"
                       >
                         {a.label}
@@ -171,22 +171,27 @@ export default function ChatWidget() {
         </button>
       </form>
 
-      <div className="px-4 py-2 flex items-center justify-between text-[10px] text-slate-400">
+      <div className="px-4 py-2 flex items-center justify-between gap-3 text-[10px] text-slate-400">
         <span className="flex items-center gap-1">
           <Sparkles size={11} /> Simulasi rule-based — bukan psikolog, bukan diagnosis.
         </span>
-        {tts.supported && (
-          <button
-            onClick={toggleVoiceReplies}
-            className={cn(
-              'inline-flex items-center gap-1 font-bold',
-              voiceReplies ? 'text-brand-deep dark:text-brand' : 'text-slate-400',
-            )}
-          >
-            {voiceReplies ? <Volume2 size={13} /> : <VolumeX size={13} />}
-            {voiceReplies ? 'Suara on' : 'Suara off'}
+        <span className="flex items-center gap-2 shrink-0">
+          {tts.supported && (
+            <button
+              onClick={toggleVoiceReplies}
+              className={cn(
+                'inline-flex items-center gap-1 font-bold',
+                voiceReplies ? 'text-brand-deep dark:text-brand' : 'text-slate-400',
+              )}
+            >
+              {voiceReplies ? <Volume2 size={13} /> : <VolumeX size={13} />}
+              {voiceReplies ? 'Suara on' : 'Suara off'}
+            </button>
+          )}
+          <button onClick={clear} className="inline-flex items-center gap-1 font-bold hover:text-rose-500" title="Hapus percakapan">
+            <Trash2 size={12} /> Reset
           </button>
-        )}
+        </span>
       </div>
     </div>
   )

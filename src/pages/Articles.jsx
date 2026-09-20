@@ -14,7 +14,10 @@ export default function Articles() {
   const filtered = useMemo(() => {
     return ARTICLES.filter((a) => {
       const matchCat = cat === 'Semua' || a.category === cat
-      const matchQuery = a.title.toLowerCase().includes(query.toLowerCase())
+      const haystack = [a.title, a.category, a.excerpt, ...a.blocks.flatMap((b) => b.items || b.text || [])]
+        .join(' ')
+        .toLowerCase()
+      const matchQuery = haystack.includes(query.trim().toLowerCase())
       return matchCat && matchQuery
     })
   }, [query, cat])

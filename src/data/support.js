@@ -1,15 +1,15 @@
 export const SUPPORT = {
-  whatsapp: {
-    label: 'Konselor sekolah via WhatsApp',
-    number: '0851-0000-0000',
-    link: 'https://wa.me/6285100000000?text=Halo%2C%20saya%20ingin%20berkonsultasi',
-    hours: 'Senin–Jumat · 08.00–15.00 WIB',
+  hotline: {
+    label: 'Healing119.id',
+    number: '119 ext. 8',
+    link: 'https://www.healing119.id/',
+    hours: 'Panggilan suara dan chat sesuai ketersediaan konselor',
   },
   services: [
     { name: 'Guru BK / Konselor Sekolah', desc: 'Tempat pertama yang paling dekat dan mudah diakses di sekolah.', tag: 'Paling dekat', icon: '🏫' },
     { name: 'Puskesmas Terdekat', desc: 'Pelayanan kesehatan dasar, bisa membantu menilai dan merujuk.', tag: 'Rujukan awal', icon: '🏥' },
     { name: 'Psikolog / Tenaga Profesional', desc: 'Penanganan lanjutan untuk keluhan yang menetap.', tag: 'Lebih mendalam', icon: '🧑‍⚕️' },
-    { name: 'Layanan 119 ext. 8', desc: 'Konseling kesehatan jiwa nasional, 24 jam.', tag: '24 jam', icon: '📞' },
+    { name: 'Healing119.id / 119 ext. 8', desc: 'Dukungan emosional dan pertolongan pertama psikologis dari Kementerian Kesehatan.', tag: 'Gratis', icon: '📞' },
   ],
-  emergencyNote: 'Dalam keadaan darurat (pikiran menyakiti diri / krisis), hubungi 112 atau datangi IGD terdekat — jangan ditunda.',
+  emergencyNote: 'Dalam keadaan darurat, hubungi 112 jika tersedia di wilayahmu, 119 untuk kegawatdaruratan medis, atau datangi IGD terdekat — jangan ditunda.',
 }

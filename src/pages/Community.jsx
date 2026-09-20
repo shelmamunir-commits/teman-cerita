@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { Heart, Send, Info } from 'lucide-react'
 import Card from '../components/ui/Card.jsx'
@@ -9,6 +10,7 @@ import { useCommunity } from '../context/CommunityContext.jsx'
 import { COMMUNITY_RULES } from '../data/community.js'
 import { MOODS } from '../lib/constants.js'
 import { cn } from '../lib/cn.js'
+import { detectCrisis } from '../engine/chatEngine.js'
 
 export default function Community() {
   const { posts, addPost, addReply, likePost } = useCommunity()
@@ -17,17 +19,27 @@ export default function Community() {
   const [mood, setMood] = useState(null)
   const [replyFor, setReplyFor] = useState(null)
   const [replyText, setReplyText] = useState('')
+  const [safetyAlert, setSafetyAlert] = useState(false)
 
   const submit = () => {
     if (!body.trim()) return
+    if (detectCrisis(`${title} ${body}`)) {
+      setSafetyAlert(true)
+      return
+    }
     addPost({ author: 'Anonim', mood, title: title.trim() || 'Tanpa judul', body: body.trim(), time: 'Baru saja' })
     setTitle('')
     setBody('')
     setMood(null)
+    setSafetyAlert(false)
   }
 
   const submitReply = (id) => {
     if (!replyText.trim()) return
+    if (detectCrisis(replyText)) {
+      setSafetyAlert(true)
+      return
+    }
     addReply(id, { author: 'Anonim', body: replyText.trim() })
     setReplyText('')
     setReplyFor(null)
@@ -37,7 +49,7 @@ export default function Community() {
     <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35 }}>
       <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">Ruang Cerita</h1>
       <p className="mt-2 text-[14.5px] text-slate-500 dark:text-slate-400 leading-relaxed">
-        Ruang aman untuk berbagi dan saling mendukung — sepenuhnya anonim.
+        Simulasi ruang dukungan anonim. Cerita tersimpan lokal di perangkat ini dan tidak dipublikasikan ke internet.
       </p>
 
       <div className="mt-4 rounded-xl border border-blue-200/60 dark:border-blue-500/30 bg-blue-50/60 dark:bg-blue-500/5 p-4">
@@ -57,6 +69,7 @@ export default function Community() {
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           placeholder="Judul (opsional)"
+          maxLength={80}
           className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 px-3 py-2.5 text-sm mb-3 focus:outline-none focus:ring-2 focus:ring-brand"
         />
         <textarea
@@ -64,6 +77,7 @@ export default function Community() {
           onChange={(e) => setBody(e.target.value)}
           rows={3}
           placeholder="Apa yang ingin kamu ceritakan? (jangan sebut identitas asli ya)"
+          maxLength={1000}
           className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 px-3 py-2.5 text-sm resize-y focus:outline-none focus:ring-2 focus:ring-brand"
         />
         <div className="mt-3 flex items-center gap-3">
@@ -75,6 +89,13 @@ export default function Community() {
             <Send size={15} /> Kirim cerita
           </Button>
         </div>
+        {safetyAlert && (
+          <div className="mt-4 rounded-xl border border-rose-300/70 bg-rose-50 dark:bg-rose-500/10 p-4 text-[13px] text-rose-700 dark:text-rose-300">
+            Ceritamu menunjukkan kemungkinan kondisi darurat. Demi keselamatanmu, jangan mengandalkan ruang komunitas.
+            Hubungi orang yang kamu percaya dan buka{' '}
+            <Link to="/safety" className="font-bold underline">bantuan darurat sekarang</Link>.
+          </div>
+        )}
       </Card>
 
       <div className="mt-6 space-y-4">
@@ -118,6 +139,7 @@ export default function Community() {
                   value={replyText}
                   onChange={(e) => setReplyText(e.target.value)}
                   placeholder="Tulis balasan…"
+                  maxLength={500}
                   className="flex-1 rounded-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand"
                 />
                 <button

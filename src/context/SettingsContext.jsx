@@ -7,7 +7,9 @@ const SettingsContext = createContext(null)
 const DATA_KEYS = [
   'bridge_name', 'bridge_goal', 'bridge_mood', 'bridge_journal',
   'bridge_done', 'bridge_feedback', 'bridge_cases', 'bridge_posts',
-  'bridge_consent', 'bridge_theme',
+  'bridge_consent', 'bridge_theme', 'bridge_result', 'bridge_problem',
+  'bridge_need', 'bridge_pathway', 'bridge_chat', 'bridge_onboarded',
+  'bridge_reduce_motion', 'bridge_font_scale', 'bridge_reminder',
 ]
 
 export function SettingsProvider({ children }) {

@@ -15,15 +15,15 @@ export function scoreQuiz(quiz, answers) {
   else if (ratio >= 0.3) category = 'mid'
 
   const primary = quiz.domain
-  const primaryScore = Math.max(1, Math.round((total / max) * 4))
+  const primaryScore = Math.round((total / max) * 4)
 
   const domainScores = { ...BASE_SCORES, [primary]: primaryScore }
 
-  const topDomains = [DOMAINS[primary].short]
+  const topDomains = primaryScore >= 2 ? [DOMAINS[primary].short] : []
 
   const explain =
     RESULT_EXPLAIN[category] +
-    ' Area yang paling menonjol dari jawabanmu: ' + DOMAINS[primary].short + '.'
+    (topDomains.length ? ' Area yang paling menonjol dari jawabanmu: ' + DOMAINS[primary].short + '.' : '')
 
   return {
     code: 'SELF-' + quiz.id.toUpperCase(),
@@ -76,4 +76,3 @@ export function scorePhq4(quiz, answers) {
     },
   }
 }
-

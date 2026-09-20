@@ -11,7 +11,7 @@ export default function Screening() {
       <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">Skrining Mandiri</h1>
       <p className="mt-2 text-[14.5px] text-slate-500 dark:text-slate-400 leading-relaxed">
         Pilih area yang ingin kamu cek. Hasilnya gambaran awal — bukan diagnosis. Jawab sejujur mungkin sesuai kondisi
-        2 minggu terakhir.
+        rentang waktu yang tertulis pada tiap skrining.
       </p>
 
       <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">

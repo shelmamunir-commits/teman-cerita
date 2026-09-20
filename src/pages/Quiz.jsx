@@ -50,7 +50,7 @@ export default function Quiz() {
       </div>
 
       <div className="mt-3 h-2 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
-        <div className="h-full bg-brand transition-all duration-300" style={{ width: `${(idx / total) * 100}%` }} />
+        <div className="h-full bg-brand transition-all duration-300" style={{ width: `${((idx + 1) / total) * 100}%` }} />
       </div>
 
       <AnimatePresence mode="wait">

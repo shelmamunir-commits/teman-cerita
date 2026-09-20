@@ -29,7 +29,7 @@ export default function FloatingChat() {
             <div className="flex items-center gap-2 px-4 py-3 border-b border-slate-200 dark:border-slate-700">
               <Logo className="w-8 h-8" />
               <div>
-                <div className="font-bold text-sm text-slate-900 dark:text-white">BRIDGE-AI Asisten</div>
+                <div className="font-bold text-sm text-slate-900 dark:text-white">Asisten Teman Cerita</div>
                 <div className="text-[11px] text-emerald-500 font-semibold">● Online</div>
               </div>
             </div>

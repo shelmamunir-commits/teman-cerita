@@ -7,13 +7,13 @@ export default function Topbar() {
   const { theme, toggle } = useTheme()
 
   return (
-    <header className="sticky top-0 z-30 backdrop-blur bg-white/70 dark:bg-slate-950/70 border-b border-slate-200/70 dark:border-slate-800/70">
+    <header className="sticky top-0 z-30 backdrop-blur-md bg-emerald-50/85 dark:bg-slate-950/80 border-b border-emerald-200/70 dark:border-emerald-900/50 shadow-[0_1px_18px_rgba(18,143,138,0.06)]">
       <div className="mx-auto w-full px-4 sm:px-6 lg:px-10 2xl:px-16 h-16 flex items-center justify-between gap-3">
         <Link to="/" className="flex items-center gap-3 group">
           <Logo className="w-9 h-9 drop-shadow-sm" />
           <span className="leading-tight">
-            <span className="block font-extrabold tracking-tight text-slate-800 dark:text-slate-100">BRIDGE-AI</span>
-            {/* <span className="block text-[11px] text-slate-500 dark:text-slate-400">menjembatani hasil skrining</span> */}
+            <span className="block font-extrabold tracking-tight text-emerald-950 dark:text-emerald-50">Teman Cerita</span>
+            <span className="block text-[10px] font-semibold tracking-wide text-emerald-700/80 dark:text-emerald-300/80">Pesma Nur Alannur</span>
           </span>
         </Link>
 

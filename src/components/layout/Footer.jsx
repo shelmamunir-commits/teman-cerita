@@ -3,17 +3,20 @@ import Logo from '../ui/Logo.jsx'
 
 export default function Footer() {
   return (
-    <footer className="mt-10 bg-slate-900 text-slate-300">
+    <footer className="mt-10 bg-gradient-to-br from-emerald-950 via-slate-900 to-teal-950 text-slate-300">
       <div className="mx-auto w-full px-4 sm:px-6 lg:px-10 2xl:px-16 py-10">
         <div className="flex flex-col md:flex-row gap-8 md:gap-12">
           <div className="md:max-w-xs">
             <div className="flex items-center gap-2 mb-3">
               <Logo className="w-8 h-8" />
-              <span className="font-extrabold text-white">BRIDGE-AI</span>
+              <span className="leading-tight">
+                <span className="block font-extrabold text-white">Teman Cerita</span>
+                <span className="block text-[10px] font-semibold tracking-wide text-emerald-300">Pesma Nur Alannur</span>
+              </span>
             </div>
             <p className="text-[12.5px] leading-relaxed text-slate-400">
-              Menjembatani hasil skrining kesehatan (CKG) menjadi langkah nyata: psikoedukasi personal, aktivitas 5
-              menit, dan arah bantuan yang tepat untuk remaja.
+              Ruang aman untuk memahami hasil skrining kesehatan, merawat diri lewat aktivitas sederhana, dan menemukan
+              bantuan yang tepat untuk remaja.
             </p>
           </div>
 
@@ -28,7 +31,7 @@ export default function Footer() {
                 <li><Link to="/journal" className="hover:text-white">Jurnal harian</Link></li>
                 <li><Link to="/breathing" className="hover:text-white">Latihan napas</Link></li>
                 <li><Link to="/meditasi" className="hover:text-white">Meditasi terpandu</Link></li>
-                <li><Link to="/chat" className="hover:text-white">Asisten AI</Link></li>
+                <li><Link to="/chat" className="hover:text-white">Asisten Teman Cerita</Link></li>
               </ul>
             </div>
             <div>
@@ -46,9 +49,14 @@ export default function Footer() {
         </div>
 
         <div className="mt-8 pt-6 border-t border-slate-700/60 text-[11px] leading-relaxed text-slate-500">
-          <b>BRIDGE-AI</b> adalah prototipe konsep untuk presentasi. Seluruh konten dan "AI" disimulasikan lewat rule
+          <b>Teman Cerita</b> oleh <b>Pesma Nur Alannur</b> adalah prototipe konsep untuk presentasi. Seluruh konten dan "AI" disimulasikan lewat rule
           engine di browser — <b>bukan</b> model terlatih, <b>bukan</b> alat diagnosis, dan <b>bukan</b> pengganti
           psikolog atau tenaga kesehatan. Kalau kamu atau temanmu dalam kondisi darurat, segera hubungi bantuan profesional.
+        </div>
+        <div className="mt-5 pt-5 border-t border-emerald-900/70 text-center text-[11px] text-slate-400">
+          © {new Date().getFullYear()} Teman Cerita · Pesma Nur Alannur<br />
+          Dikembangkan oleh <span className="font-semibold text-emerald-300">Shelma Nasywa Ramadhani Munir</span> dan{' '}
+          <span className="font-semibold text-emerald-300">Ahmad Zainul Khofi</span>
         </div>
       </div>
     </footer>

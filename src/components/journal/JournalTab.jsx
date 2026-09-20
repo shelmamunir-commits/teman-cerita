@@ -19,8 +19,10 @@ export default function JournalTab() {
   const [notes, setNotes] = useState('')
   const [saved, setSaved] = useState(false)
   const [expandedId, setExpandedId] = useState(null)
+  const hasContent = mood !== null || gratitude.some((item) => item.trim()) || schedule.some((item) => item.text.trim()) || notes.trim()
 
   const save = () => {
+    if (!hasContent) return
     addEntry({
       date: new Date().toLocaleDateString('id-ID', DATE_FMT),
       mood,
@@ -117,9 +119,10 @@ export default function JournalTab() {
       </div>
 
       <div className="flex flex-wrap items-center gap-3 mt-6">
-        <Button onClick={save}>
+        <Button onClick={save} disabled={!hasContent}>
           <Plus size={16} /> Simpan entri hari ini
         </Button>
+        {!hasContent && <span className="text-xs text-slate-400">Isi setidaknya satu bagian terlebih dahulu.</span>}
         {saved && (
           <span className="inline-flex items-center gap-1.5 text-sm font-bold text-emerald-600 dark:text-emerald-400">
             <Check size={16} /> Tersimpan!

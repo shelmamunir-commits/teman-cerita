@@ -27,7 +27,7 @@ export default function Understand() {
         Hasilmu{name ? `, ${name}` : ''}
       </h1>
       <p className="mt-2 text-[14.5px] text-slate-500 dark:text-slate-400">
-        Kode <b>{result.code}</b> · begini BRIDGE-AI membacanya:
+        Kode <b>{result.code}</b> · begini Teman Cerita membacanya:
       </p>
 
       <Card className="mt-6">

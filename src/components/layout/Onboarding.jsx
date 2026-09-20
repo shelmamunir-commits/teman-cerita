@@ -23,7 +23,7 @@ export default function Onboarding() {
   }
 
   return (
-    <Modal open={!onboarded} onClose={() => {}} title={`Selamat datang di BRIDGE-AI · ${step + 1}/${STEPS.length}`}>
+    <Modal open={!onboarded} onClose={() => {}} title={`Selamat datang di Teman Cerita · ${step + 1}/${STEPS.length}`}>
       <div className="flex gap-1.5 mb-5">
         {STEPS.map((s, i) => (
           <div key={s} className={cn('h-1.5 flex-1 rounded-full', i <= step ? 'bg-brand' : 'bg-slate-200 dark:bg-slate-700')} />
@@ -35,12 +35,13 @@ export default function Onboarding() {
           <motion.div key="s0" initial={{ opacity: 0, x: 16 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -16 }} transition={{ duration: 0.2 }}>
             <div className="space-y-3 text-[13.5px] leading-relaxed text-slate-600 dark:text-slate-300">
               <p>
-                <b className="text-slate-900 dark:text-white">BRIDGE-AI bukan alat diagnosis</b> dan bukan pengganti
+                <b className="text-slate-900 dark:text-white">Teman Cerita bukan alat diagnosis</b> dan bukan pengganti
                 psikolog atau tenaga kesehatan. Hasil yang kamu lihat hanyalah gambaran awal.
               </p>
               <p>
-                <b className="text-slate-900 dark:text-white">Datamu aman &amp; privat.</b> Semua data hanya tersimpan di
-                perangkatmu (localStorage), tidak dikirim ke server mana pun.
+                <b className="text-slate-900 dark:text-white">Data inti tersimpan lokal.</b> Hasil skrining, mood, jurnal,
+                dan percakapan disimpan di perangkatmu (localStorage). Fitur peta memakai Google Maps dan hanya memakai
+                lokasi presisi setelah kamu memberikan izin.
               </p>
               <p className="text-[12.5px] text-slate-400">
                 Kalau kamu sedang dalam krisis, segera buka{' '}

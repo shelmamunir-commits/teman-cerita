@@ -38,13 +38,16 @@ export default function Safety() {
           <div className="mt-6 rounded-2xl bg-slate-900 text-white p-5">
             <div className="text-2xl font-extrabold">{HOTLINE.number}</div>
             <div className="text-[12.5px] text-white/70">{HOTLINE.desc}</div>
+            <a href={HOTLINE.url} target="_blank" rel="noreferrer" className="mt-3 inline-flex rounded-full bg-white text-slate-900 px-4 py-2 text-sm font-bold hover:bg-emerald-50 transition">
+              Buka chat Healing119.id
+            </a>
           </div>
 
           <div className="mt-6">
             <div className="text-[11px] font-extrabold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-3">
               Nomor darurat
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
               {EMERGENCY_NUMBERS.map((n) => (
                 <a
                   key={n.number}
@@ -68,7 +71,7 @@ export default function Safety() {
           </div>
 
           <div className="mt-5 rounded-2xl border border-rose-200/70 dark:border-rose-500/30 bg-rose-50/70 dark:bg-rose-500/10 p-5 text-[12.5px] leading-relaxed text-rose-700 dark:text-rose-300">
-            <b>Kenapa nggak ada konten psikoedukasi di sini?</b> Kondisi darurat butuh manusia, bukan AI. BRIDGE-AI
+            <b>Kenapa nggak ada konten psikoedukasi di sini?</b> Kondisi darurat butuh manusia, bukan AI. Teman Cerita
             sengaja langsung mengarahkan kamu ke bantuan profesional.
           </div>
 

@@ -65,8 +65,8 @@ export default function Settings() {
           <span className="font-bold text-slate-900 dark:text-white">Privasi &amp; data</span>
         </div>
         <p className="mt-2 text-[13px] leading-relaxed text-slate-500 dark:text-slate-400">
-          Semua data kamu (mood, jurnal, hasil skrining) hanya tersimpan di perangkat ini (localStorage) dan tidak
-          dikirim ke server mana pun.
+          Hasil skrining, mood, jurnal, dan percakapan tersimpan di perangkat ini (localStorage). Peta memakai layanan
+          Google Maps; lokasi presisi hanya digunakan setelah kamu memberi izin.
         </p>
         <div className="mt-4 space-y-3">
           <Toggle

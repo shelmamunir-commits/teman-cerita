@@ -51,6 +51,9 @@ export default function Meditation() {
       <p className="mt-2 text-[14.5px] text-slate-500 dark:text-slate-400 leading-relaxed">
         Sesi meditasi bersuara yang disesuaikan dengan kondisimu. Pakai earphone untuk hasil terbaik.
       </p>
+      <p className="mt-2 text-[12px] text-slate-400">
+        Gunakan saat berada di tempat aman dan tidak sedang berkendara atau mengoperasikan alat.
+      </p>
 
       {recommended.length > 0 && (
         <div className="mt-6">

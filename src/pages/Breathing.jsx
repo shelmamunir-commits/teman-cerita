@@ -16,6 +16,10 @@ export default function Breathing() {
         <BreathingGuide />
       </Card>
 
+      <p className="mt-3 text-center text-[12px] leading-relaxed text-slate-400 max-w-lg mx-auto">
+        Lakukan tanpa memaksakan napas. Hentikan bila terasa pusing, sesak, atau tidak nyaman, lalu kembali bernapas normal.
+      </p>
+
       <div className="mt-6 text-center">
         <Link to="/actions">
           <button className="inline-flex items-center gap-2 text-sm font-semibold text-slate-500 dark:text-slate-400 hover:text-brand-deep dark:hover:text-brand">

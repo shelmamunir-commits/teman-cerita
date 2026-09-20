@@ -14,14 +14,14 @@ import { useSettings } from '../context/SettingsContext.jsx'
 import { dateKey } from '../components/mood/MoodCalendar.jsx'
 
 const FEATURES = [
-  { icon: FileSearch, color: '#40ae87', bg: '#e1fbfa', t: 'Pahami Hasil Skrining', d: 'AI menerjemahkan hasil CKG jadi bahasa yang mudah dipahami — tanpa diagnosis.', to: '/result' },
+  { icon: FileSearch, color: '#40ae87', bg: '#e1fbfa', t: 'Pahami Hasil Skrining', d: 'Sistem menerjemahkan hasil CKG jadi bahasa yang mudah dipahami — tanpa diagnosis.', to: '/result' },
   { icon: Route, color: '#3899fe', bg: '#ebf3ff', t: 'My Journey', d: 'Urutan materi yang pas dengan kondisi dan kebutuhanmu.', to: '/personalize' },
   { icon: HeartPulse, color: '#f1487c', bg: '#feedf2', t: 'Aktivitas & Latihan 5 Menit', d: 'Latihan napas, grounding, dan aktivitas kecil yang bisa langsung dicoba.', to: '/breathing' },
   { icon: Headphones, color: '#40ae87', bg: '#e1fbfa', t: 'Meditasi Terpandu', d: 'Sesi meditasi bersuara yang disesuaikan dengan kondisimu.', to: '/meditasi' },
   { icon: NotebookPen, color: '#7a5af8', bg: '#f2effe', t: 'Mood Tracker & Jurnal', d: 'Catat mood harian, tulis jurnal syukur, lihat polanya.', to: '/jurnal' },
   { icon: ClipboardList, color: '#f5a623', bg: '#fef6e7', t: 'Skrining Mandiri', d: 'Cek kecemasan, mood, stres, tidur, dan beban belajar.', to: '/screening' },
   { icon: BookOpen, color: '#40ae87', bg: '#e1fbfa', t: 'Ruang Paham', d: 'Materi psikoedukasi berbasis referensi, bisa dicari.', to: '/articles' },
-  { icon: MessageCircle, color: '#3899fe', bg: '#ebf3ff', t: 'Asisten AI', d: 'Ngobrol tentang kondisimu dan dapat saran langkah awal.', chat: true },
+  { icon: MessageCircle, color: '#3899fe', bg: '#ebf3ff', t: 'Asisten Teman Cerita', d: 'Ngobrol tentang kondisimu dan dapat saran langkah awal.', chat: true },
   { icon: Users, color: '#7a5af8', bg: '#f2effe', t: 'Ruang Cerita', d: 'Berbagi dan saling dukung secara anonim.', to: '/komunitas' },
 ]
 
@@ -31,7 +31,7 @@ const QUICK = [
   { to: '/dashboard', icon: LayoutDashboard, t: 'Dashboard sekolah', d: 'Demo tampilan psikolog & guru' },
 ]
 
-function BridgeArt() {
+function GentleLandscape() {
   return (
     <svg className="absolute inset-x-0 bottom-0 w-full h-full opacity-20 pointer-events-none" viewBox="0 0 400 220" fill="none" preserveAspectRatio="xMidYMax slice">
       <circle cx="330" cy="52" r="34" fill="#ffffff" opacity="0.35" />
@@ -59,16 +59,16 @@ export default function Home() {
     <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35 }}>
       {/* HERO */}
       <section className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-brand-deep via-brand to-brand-bright text-white p-8 sm:p-14 text-center">
-        <BridgeArt />
+        <GentleLandscape />
         <div className="relative z-10 max-w-2xl mx-auto">
           <span className="inline-block text-[11px] font-extrabold uppercase tracking-widest bg-white/15 rounded-full px-3 py-1.5 mb-5">
-            Bridge-AI · Kesehatan Mental Remaja
+            Pesma Nur Alannur · Kesehatan Mental Remaja
           </span>
           <h1 className="text-3xl sm:text-[2.6rem] leading-[1.15] font-extrabold">
             Pahami Dirimu, Temukan Langkahmu.
           </h1>
           <p className="mt-4 text-[15px] leading-relaxed text-white/90">
-            Bridge-AI menjembatani hasil skrining kesehatan (CKG) dengan langkah nyata. Ayo pahami dirimu, temukan langkahmu dan cari bantuan sesuai kebutuhanmu. Kamu tidak sendirian, mari bertumbuh bersama-sama.
+            Teman Cerita menemanimu memahami hasil skrining kesehatan (CKG) dan menemukan langkah nyata. Ayo pahami dirimu, rawat kesehatan mentalmu, dan cari bantuan sesuai kebutuhan. Kamu tidak sendirian.
           </p>
           <div className="mt-7 flex flex-wrap justify-center gap-3">
             <Link to="/result">
@@ -127,7 +127,7 @@ export default function Home() {
       <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {FEATURES.map((f) => {
           const cardCls =
-            'rounded-xl bg-white dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 p-6 text-center hover:shadow-md hover:border-brand dark:hover:border-brand transition'
+            'rounded-xl bg-gradient-to-br from-white to-emerald-50/80 dark:from-slate-800/80 dark:to-emerald-950/30 border border-emerald-100 dark:border-emerald-900/60 p-6 text-center hover:shadow-md hover:border-brand dark:hover:border-brand transition'
           const inner = (
             <>
               <div className="flex h-12 w-12 items-center justify-center rounded-xl mx-auto" style={{ background: f.bg }}>
@@ -177,7 +177,7 @@ export default function Home() {
           <Link
             key={q.to}
             to={q.to}
-            className="group rounded-xl bg-white dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 p-6 text-center hover:border-brand dark:hover:border-brand hover:shadow-md transition"
+            className="group rounded-xl bg-gradient-to-br from-white to-emerald-50/80 dark:from-slate-800/80 dark:to-emerald-950/30 border border-emerald-100 dark:border-emerald-900/60 p-6 text-center hover:border-brand dark:hover:border-brand hover:shadow-md transition"
           >
             <div className="flex h-12 w-12 items-center justify-center rounded-full bg-brand text-white mx-auto group-hover:bg-brand-deep transition">
               <q.icon size={22} />
@@ -189,9 +189,9 @@ export default function Home() {
       </div>
 
       <div className="mt-8 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/60 p-5 text-[12.5px] leading-relaxed text-slate-500 dark:text-slate-400">
-        <b className="text-brand-deep dark:text-brand">Aman &amp; bukan diagnosis.</b> BRIDGE-AI nggak mendiagnosis
-        gangguan apa pun. AI cuma memilih, mempersonalisasi, lalu menyampaikan materi yang ditinjau berdasarkan referensi
-        terpercaya — keputusan klinis tetap di tangan psikolog. Semua data tersimpan di perangkatmu dan bisa dihapus kapan saja.
+        <b className="text-brand-deep dark:text-brand">Aman &amp; bukan diagnosis.</b> Teman Cerita nggak mendiagnosis
+        gangguan apa pun. Sistem hanya memilih, mempersonalisasi, lalu menyampaikan materi yang ditinjau berdasarkan referensi
+        terpercaya — keputusan klinis tetap di tangan psikolog. Data inti tersimpan di perangkatmu dan bisa dihapus kapan saja.
       </div>
     </motion.div>
   )

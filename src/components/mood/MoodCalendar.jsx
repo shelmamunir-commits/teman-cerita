@@ -62,12 +62,16 @@ export default function MoodCalendar({ entries, selected, onSelect }) {
           const mood = entries[key]
           const isToday = key === todayKey
           const isSelected = key === selected
+          const isFuture = new Date(year, month, d) > new Date(now.getFullYear(), now.getMonth(), now.getDate())
           return (
             <button
               key={key}
               onClick={() => onSelect(key)}
+              disabled={isFuture}
+              title={isFuture ? 'Mood untuk hari mendatang belum bisa dicatat' : undefined}
               className={cn(
                 'aspect-square rounded-xl flex flex-col items-center justify-center text-sm transition border cursor-pointer',
+                isFuture && 'opacity-35 cursor-not-allowed',
                 isSelected
                   ? 'border-brand bg-brand/10'
                   : 'border-transparent hover:bg-slate-100 dark:hover:bg-slate-800',

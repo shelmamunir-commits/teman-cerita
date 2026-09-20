@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from 'react'
+import { createContext, useContext } from 'react'
 import { useLocalStorage } from '../hooks/useLocalStorage'
 import { analyze } from '../engine/analyzer'
 import { buildPathway } from '../engine/pathwayEngine'
@@ -9,10 +9,10 @@ const AppContext = createContext(null)
 export function AppProvider({ children }) {
   const [name, setName] = useLocalStorage('bridge_name', '')
   const [goal, setGoal] = useLocalStorage('bridge_goal', null)
-  const [result, setResult] = useState(null) // { code, category, domainScores, explain, topDomains }
-  const [problem, setProblem] = useState(null)
-  const [need, setNeed] = useState(null)
-  const [pathway, setPathway] = useState([])
+  const [result, setResult] = useLocalStorage('bridge_result', null)
+  const [problem, setProblem] = useLocalStorage('bridge_problem', null)
+  const [need, setNeed] = useLocalStorage('bridge_need', null)
+  const [pathway, setPathway] = useLocalStorage('bridge_pathway', [])
   const [done, setDone] = useLocalStorage('bridge_done', {})
   const [feedback, setFeedback] = useLocalStorage('bridge_feedback', {})
   const [dashCases, setDashCases] = useLocalStorage('bridge_cases', seedCases())
