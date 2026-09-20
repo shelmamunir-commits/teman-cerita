@@ -2,6 +2,8 @@
 
 Ruang aman dari Pesma Nur Alannur untuk memahami hasil skrining kesehatan (CKG), merawat diri melalui psikoedukasi personal dan aktivitas sederhana, serta menemukan arah bantuan yang tepat.
 
+Website publik: [shelmamunir-commits.github.io/teman-cerita](https://shelmamunir-commits.github.io/teman-cerita/)
+
 > **Disclaimer:** Prototipe konsep. Seluruh "AI" disimulasikan lewat rule engine di frontend — bukan model terlatih, bukan alat diagnosis, dan bukan pengganti psikolog/tenaga kesehatan.
 
 © Teman Cerita · Pesma Nur Alannur — dikembangkan oleh **Shelma Nasywa Ramadhani Munir** dan **Ahmad Zainul Khofi**.
