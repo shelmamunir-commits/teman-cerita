@@ -21,10 +21,8 @@ export default function Breathing() {
       </p>
 
       <div className="mt-6 text-center">
-        <Link to="/actions">
-          <button className="inline-flex items-center gap-2 text-sm font-semibold text-slate-500 dark:text-slate-400 hover:text-brand-deep dark:hover:text-brand">
-            <ArrowLeft size={16} /> Kembali ke langkah kecil
-          </button>
+        <Link to="/actions" className="inline-flex items-center gap-2 text-sm font-semibold text-slate-500 dark:text-slate-400 hover:text-brand-deep dark:hover:text-brand">
+          <ArrowLeft size={16} /> Kembali ke langkah kecil
         </Link>
       </div>
     </motion.div>

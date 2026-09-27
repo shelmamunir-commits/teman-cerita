@@ -1,9 +1,14 @@
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { Siren, ArrowLeft, MapPin } from 'lucide-react'
-import Card from '../components/ui/Card.jsx'
+import { Siren, ArrowLeft, ClipboardList, MapPin, MessageCircle, Phone } from 'lucide-react'
 import NearbyMap from '../components/help/NearbyMap.jsx'
-import { EMERGENCY_STEPS, HOTLINE, EMERGENCY_NUMBERS } from '../data/helpResources.js'
+import { EMERGENCY_CONTACTS, EMERGENCY_STEPS } from '../data/helpResources.js'
+
+const CONTACT_ICONS = {
+  whatsapp: MessageCircle,
+  phone: Phone,
+  form: ClipboardList,
+}
 
 export default function Safety() {
   return (
@@ -35,35 +40,42 @@ export default function Safety() {
             ))}
           </ul>
 
-          <div className="mt-6 rounded-2xl bg-slate-900 text-white p-5">
-            <div className="text-2xl font-extrabold">{HOTLINE.number}</div>
-            <div className="text-[12.5px] text-white/70">{HOTLINE.desc}</div>
-            <a href={HOTLINE.url} target="_blank" rel="noreferrer" className="mt-3 inline-flex rounded-full bg-white text-slate-900 px-4 py-2 text-sm font-bold hover:bg-emerald-50 transition">
-              Buka chat Healing119.id
-            </a>
+          <div className="mt-6 rounded-2xl border border-emerald-200 bg-emerald-50/70 p-5 dark:border-emerald-500/30 dark:bg-emerald-500/10">
+            <div className="flex items-center gap-2">
+              <MessageCircle size={19} className="text-emerald-700 dark:text-emerald-300" />
+              <h2 className="font-bold text-slate-900 dark:text-white">Kontak bantuan darurat</h2>
+            </div>
+            <p className="mt-2 text-[12.5px] leading-relaxed text-slate-600 dark:text-slate-300">
+              Jangan menghadapi kondisi darurat sendirian. Pilih bantuan yang paling sesuai dengan kondisimu.
+            </p>
+            <div className="mt-4 grid gap-3 lg:grid-cols-3">
+              {EMERGENCY_CONTACTS.map((contact) => {
+                const ContactIcon = CONTACT_ICONS[contact.kind]
+                return (
+                  <a
+                    key={contact.id}
+                    href={contact.url}
+                    target={contact.external ? '_blank' : undefined}
+                    rel={contact.external ? 'noopener noreferrer' : undefined}
+                    aria-label={`${contact.action}: ${contact.name}`}
+                    className="flex items-center gap-3 rounded-xl border border-emerald-200 bg-white p-4 transition hover:border-emerald-500 hover:bg-emerald-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 dark:border-emerald-800 dark:bg-slate-900 dark:hover:border-emerald-500 dark:hover:bg-emerald-500/10"
+                  >
+                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-emerald-600 text-white">
+                      <ContactIcon size={19} />
+                    </span>
+                    <span className="min-w-0">
+                      <span className="block font-bold leading-tight text-slate-900 dark:text-white">{contact.name}</span>
+                      <span className="mt-1 block text-xs text-slate-500 dark:text-slate-400">{contact.role} · {contact.detail}</span>
+                      <span className="mt-2 block text-xs font-bold text-emerald-700 dark:text-emerald-300">{contact.action}</span>
+                    </span>
+                  </a>
+                )
+              })}
+            </div>
           </div>
 
           <div className="mt-6">
-            <div className="text-[11px] font-extrabold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-3">
-              Nomor darurat
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-              {EMERGENCY_NUMBERS.map((n) => (
-                <a
-                  key={n.number}
-                  href={`tel:${n.number}`}
-                  className="rounded-xl border border-slate-200 dark:border-slate-700 p-4 hover:border-brand dark:hover:border-brand transition"
-                >
-                  <div className="text-xl font-extrabold text-slate-900 dark:text-white">{n.number}</div>
-                  <div className="text-[13px] font-bold text-slate-600 dark:text-slate-300">{n.label}</div>
-                  <div className="text-[11.5px] text-slate-400 dark:text-slate-500">{n.desc}</div>
-                </a>
-              ))}
-            </div>
-          </div>
-
-          <div className="mt-6">
-            <div className="flex items-center gap-2 mb-3">
+            <div className="mb-3 flex items-center gap-2">
               <MapPin size={18} className="text-rose-500" />
               <span className="font-bold text-slate-900 dark:text-white">Layanan terdekat di sekitarmu</span>
             </div>
@@ -76,10 +88,8 @@ export default function Safety() {
           </div>
 
           <div className="mt-6">
-            <Link to="/">
-              <button className="inline-flex items-center gap-2 text-sm font-semibold text-slate-500 dark:text-slate-400 hover:text-brand-deep dark:hover:text-brand">
-                <ArrowLeft size={16} /> Kembali ke beranda
-              </button>
+            <Link to="/" className="inline-flex items-center gap-2 text-sm font-semibold text-slate-500 dark:text-slate-400 hover:text-brand-deep dark:hover:text-brand">
+              <ArrowLeft size={16} /> Kembali ke beranda
             </Link>
           </div>
         </div>

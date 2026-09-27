@@ -4,9 +4,7 @@ Ruang aman dari Pesma Nur Alannur untuk memahami hasil skrining kesehatan (CKG),
 
 Website publik: [shelmamunir-commits.github.io/teman-cerita](https://shelmamunir-commits.github.io/teman-cerita/)
 
-> **Disclaimer:** Prototipe konsep. Seluruh "AI" disimulasikan lewat rule engine di frontend — bukan model terlatih, bukan alat diagnosis, dan bukan pengganti psikolog/tenaga kesehatan.
-
-© Teman Cerita · Pesma Nur Alannur — dikembangkan oleh **Shelma Nasywa Ramadhani Munir** dan **Ahmad Zainul Khofi**.
+© Teman Cerita · Pesma Nur Alannur — dikembangkan oleh **Prof. Dr. Mutimmatul Faidah, S.Ag., M.Ag.**, **Shelma Nasywa Ramadhani Munir**, **Ahmad Zainul Khofi**, dan **Mahla Zayani**.
 
 ## Stack
 
@@ -17,7 +15,8 @@ Website publik: [shelmamunir-commits.github.io/teman-cerita](https://shelmamunir
 - **Framer Motion** — animasi
 - **Recharts** — radar & trend chart
 - **lucide-react** — ikon
-- **localStorage** — penyimpanan data (mood, jurnal, tema, progres)
+- **Supabase** — autentikasi, profil, RBAC, RLS, dan ringkasan skrining
+- **localStorage** — penyimpanan di perangkat yang dipisahkan per akun (mood, jurnal, chat, tema, progres)
 
 ## Menjalankan
 
@@ -26,6 +25,50 @@ npm install
 npm run dev       # mode development
 npm run build     # produksi (output ke dist/)
 npm run preview   # pratinjau hasil build
+```
+
+## Menyiapkan akun dan database
+
+1. Buat proyek Supabase dan nonaktifkan pendaftaran pengguna mandiri.
+2. Jalankan migration `supabase/migrations/202609210001_auth_rbac.sql`.
+3. Deploy Edge Functions `change-password`, `admin-api`, dan `bootstrap-sysadmin`.
+4. Atur secret `BOOTSTRAP_SECRET` pada Edge Functions.
+5. Salin `.env.example` ke `.env.local`, lalu isi Project URL dan publishable key Supabase. Variabel lama `VITE_SUPABASE_ANON_KEY` tetap didukung untuk kompatibilitas.
+6. Panggil `bootstrap-sysadmin` sekali dengan header `x-bootstrap-secret` dan JSON berikut:
+
+```json
+{
+  "login_id": "sysadmin",
+  "full_name": "Nama Pengelola"
+}
+```
+
+Endpoint akan mengembalikan sandi sementara satu kali. Login memakai ID tersebut lalu ganti sandi. Setelah akun pertama tersedia, akun lain dan impor CSV dikelola dari halaman `/sysadmin`.
+
+Format CSV impor:
+
+```csv
+id_santri,nama_lengkap,kelas,role
+SNT-001,Nama Santri,Kelas A,Santri
+```
+
+`SUPABASE_SERVICE_ROLE_KEY` hanya digunakan otomatis di lingkungan Edge Functions dan tidak boleh dimasukkan ke `.env.local` atau frontend.
+
+## Deploy ke GitHub Pages
+
+Tambahkan repository secrets berikut di **Settings → Secrets and variables → Actions**:
+
+- `VITE_SUPABASE_URL`
+- `VITE_SUPABASE_PUBLISHABLE_KEY`
+
+Jika proyek masih memakai anon key lama, isi `VITE_SUPABASE_ANON_KEY` sebagai pengganti publishable key. Workflow tidak pernah membutuhkan `SUPABASE_SERVICE_ROLE_KEY`.
+
+Sebelum deploy, jalankan:
+
+```bash
+npm audit --omit=dev
+npm run build
+npm run preview
 ```
 
 ## Struktur
@@ -60,5 +103,6 @@ src/
 7. **Mood tracker + kalender** — tren mood tersimpan
 8. **Jurnal harian** — syukur, jadwal, catatan, riwayat
 9. **Latihan napas interaktif** — animasi 4-7-8
-10. **Dashboard psikolog/guru** — simulasi kasus prioritas
-11. **Dark mode**
+10. **Dashboard sekolah** — ringkasan skrining baca-saja untuk Admin
+11. **Manajemen akun & role** — halaman Sysadmin, RBAC, dan impor CSV
+12. **Dark mode**

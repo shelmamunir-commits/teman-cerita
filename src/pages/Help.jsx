@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { Phone, ArrowLeft, MapPin } from 'lucide-react'
+import { Phone, ArrowLeft, MapPin, MessageCircle } from 'lucide-react'
 import Card from '../components/ui/Card.jsx'
 import NearbyMap from '../components/help/NearbyMap.jsx'
-import { HELP_LADDER, HOTLINE, EMERGENCY_NUMBERS } from '../data/helpResources.js'
+import { HELP_LADDER, HOTLINE, EMERGENCY_NUMBERS, SCHOOL_HELP_CONTACTS } from '../data/helpResources.js'
 
 export default function Help() {
   return (
@@ -32,6 +32,41 @@ export default function Help() {
           </div>
         ))}
       </div>
+
+      <Card className="mt-5">
+        <div className="flex items-start gap-3">
+          <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-emerald-100 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-300">
+            <MessageCircle size={21} />
+          </span>
+          <div>
+            <h2 className="font-bold text-slate-900 dark:text-white">Kontak bantuan Pesma Nur Alannur</h2>
+            <p className="mt-1 text-[12.5px] leading-relaxed text-slate-500 dark:text-slate-400">
+              Pilih pendamping yang ingin dihubungi. WhatsApp akan terbuka dengan pesan bantuan yang sudah disiapkan.
+            </p>
+          </div>
+        </div>
+        <div className="mt-4 grid gap-3 sm:grid-cols-2">
+          {SCHOOL_HELP_CONTACTS.map((contact) => (
+            <a
+              key={contact.number}
+              href={contact.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`Hubungi ${contact.name} melalui WhatsApp`}
+              className="flex items-center gap-3 rounded-xl border border-emerald-200 bg-white p-4 transition hover:border-emerald-500 hover:bg-emerald-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand dark:border-emerald-900 dark:bg-slate-900 dark:hover:border-emerald-500 dark:hover:bg-emerald-500/10"
+            >
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#25D366] text-white">
+                <MessageCircle size={19} />
+              </span>
+              <span className="min-w-0">
+                <span className="block font-bold text-slate-900 dark:text-white">{contact.name}</span>
+                <span className="block text-xs text-slate-500 dark:text-slate-400">{contact.number}</span>
+              </span>
+              <span className="ml-auto text-xs font-bold text-emerald-700 dark:text-emerald-300">WhatsApp</span>
+            </a>
+          ))}
+        </div>
+      </Card>
 
       <div className="mt-5 rounded-2xl bg-slate-900 dark:bg-slate-900 border border-slate-800 text-white p-5 flex items-center gap-4 flex-wrap">
         <div className="w-11 h-11 rounded-xl bg-white/10 flex items-center justify-center">
@@ -68,6 +103,7 @@ export default function Help() {
               <span>
                 <span className="block text-lg font-extrabold text-slate-900 dark:text-white">{n.number}</span>
                 <span className="block text-[12px] font-bold text-slate-600 dark:text-slate-300">{n.label}</span>
+                <span className="mt-0.5 block text-[10.5px] leading-snug text-slate-400">{n.desc}</span>
               </span>
             </a>
           ))}
@@ -97,10 +133,8 @@ export default function Help() {
       </div>
 
       <div className="mt-6">
-        <Link to="/">
-          <button className="inline-flex items-center gap-2 text-sm font-semibold text-slate-500 dark:text-slate-400 hover:text-brand-deep dark:hover:text-brand">
-            <ArrowLeft size={16} /> Kembali ke beranda
-          </button>
+        <Link to="/" className="inline-flex items-center gap-2 text-sm font-semibold text-slate-500 dark:text-slate-400 hover:text-brand-deep dark:hover:text-brand">
+          <ArrowLeft size={16} /> Kembali ke beranda
         </Link>
       </div>
     </motion.div>

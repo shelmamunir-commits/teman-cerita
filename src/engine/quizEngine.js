@@ -32,6 +32,7 @@ export function scoreQuiz(quiz, answers) {
     domainScores,
     explain,
     topDomains,
+    totalScore: total,
   }
 }
 

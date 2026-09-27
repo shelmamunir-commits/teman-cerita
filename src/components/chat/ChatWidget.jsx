@@ -144,6 +144,7 @@ export default function ChatWidget() {
       <form onSubmit={submit} className="border-t border-slate-200 dark:border-slate-700 p-3 flex gap-2">
         <input
           ref={inputRef}
+          aria-label="Pesan untuk asisten Teman Cerita"
           placeholder={micActive ? 'Bicara sekarang…' : 'Ketik pesan…'}
           className="flex-1 rounded-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand"
         />
@@ -173,7 +174,7 @@ export default function ChatWidget() {
 
       <div className="px-4 py-2 flex items-center justify-between gap-3 text-[10px] text-slate-400">
         <span className="flex items-center gap-1">
-          <Sparkles size={11} /> Simulasi rule-based — bukan psikolog, bukan diagnosis.
+          <Sparkles size={11} /> Asisten otomatis — bukan psikolog atau diagnosis.
         </span>
         <span className="flex items-center gap-2 shrink-0">
           {tts.supported && (

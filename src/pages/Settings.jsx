@@ -8,9 +8,10 @@ import Toggle from '../components/ui/Toggle.jsx'
 import Modal from '../components/ui/Modal.jsx'
 import { useSettings } from '../context/SettingsContext.jsx'
 import { useTheme } from '../theme/ThemeProvider.jsx'
+import { Link } from 'react-router-dom'
 
 export default function Settings() {
-  const { reduceMotion, setReduceMotion, fontScale, setFontScale, consent, setConsent, reminder, setReminder, clearAllData } = useSettings()
+  const { reduceMotion, setReduceMotion, fontScale, setFontScale, reminder, setReminder, clearAllData } = useSettings()
   const { theme, toggle } = useTheme()
   const [confirmOpen, setConfirmOpen] = useState(false)
 
@@ -65,25 +66,21 @@ export default function Settings() {
           <span className="font-bold text-slate-900 dark:text-white">Privasi &amp; data</span>
         </div>
         <p className="mt-2 text-[13px] leading-relaxed text-slate-500 dark:text-slate-400">
-          Hasil skrining, mood, jurnal, dan percakapan tersimpan di perangkat ini (localStorage). Peta memakai layanan
-          Google Maps; lokasi presisi hanya digunakan setelah kamu memberi izin.
+          Profil dan ringkasan skrining akun tersimpan di server sekolah. Mood, jurnal, percakapan, dan preferensi
+          tersimpan di perangkat ini. Peta memakai lokasi presisi hanya setelah kamu memberi izin.
         </p>
         <div className="mt-4 space-y-3">
-          <Toggle
-            checked={consent}
-            onChange={setConsent}
-            label="Saya telah membaca dan menyetujui disclaimer"
-          />
+          <Link to="/privasi" className="inline-flex items-center gap-2 text-sm font-bold text-brand-deep underline dark:text-brand"><ShieldCheck size={15} /> Lihat informasi privasi dan penggunaan data</Link>
           <Button variant="secondary" onClick={() => setConfirmOpen(true)}>
-            <Trash2 size={15} /> Hapus semua data
+            <Trash2 size={15} /> Hapus data perangkat
           </Button>
         </div>
       </Card>
 
-      <Modal open={confirmOpen} onClose={() => setConfirmOpen(false)} title="Hapus semua data?">
+      <Modal open={confirmOpen} onClose={() => setConfirmOpen(false)} title="Hapus data perangkat?">
         <p className="text-[13.5px] leading-relaxed text-slate-600 dark:text-slate-300">
-          Tindakan ini akan menghapus semua data yang tersimpan di perangkat ini — termasuk mood, jurnal, hasil
-          skrining, dan pengaturan. Tindakan ini tidak bisa dibatalkan.
+          Tindakan ini akan menghapus data lokal di perangkat ini—termasuk mood, jurnal, percakapan, dan pengaturan.
+          Profil serta riwayat skrining di server tidak ikut terhapus. Tindakan ini tidak bisa dibatalkan.
         </p>
         <div className="mt-5 flex gap-3">
           <Button onClick={clearAllData} className="flex-1" variant="secondary">

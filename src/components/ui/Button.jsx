@@ -10,12 +10,12 @@ const variants = {
   ghost: 'bg-transparent text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 px-4 py-2 text-sm rounded-full',
 }
 
-export default function Button({ variant = 'primary', className, children, ...props }) {
+export default function Button({ as: Component = 'button', variant = 'primary', className, children, ...props }) {
   const base =
     'inline-flex items-center justify-center gap-2 font-semibold transition-all duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 disabled:opacity-40 disabled:cursor-not-allowed active:scale-[0.98]'
   return (
-    <button className={cn(base, variants[variant], className)} {...props}>
+    <Component className={cn(base, variants[variant], className)} {...props}>
       {children}
-    </button>
+    </Component>
   )
 }

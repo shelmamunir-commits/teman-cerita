@@ -17,6 +17,8 @@ export default function Quiz() {
   const [idx, setIdx] = useState(0)
   const [answers, setAnswers] = useState([])
   const [selected, setSelected] = useState(null)
+  const [error, setError] = useState('')
+  const [busy, setBusy] = useState(false)
 
   if (!quiz) return <Navigate to="/screening" replace />
 
@@ -26,15 +28,24 @@ export default function Quiz() {
 
   const choose = (i) => setSelected(i)
 
-  const next = () => {
+  const next = async () => {
+    if (busy) return
+    setError('')
     const newAnswers = [...answers]
     newAnswers[idx] = selected
     setAnswers(newAnswers)
     setSelected(null)
     if (idx + 1 >= total) {
       const analysis = quiz.type === 'phq4' ? scorePhq4(quiz, newAnswers) : scoreQuiz(quiz, newAnswers)
-      submitQuizResult(analysis)
-      navigate('/understand')
+      try {
+        setBusy(true)
+        await submitQuizResult(analysis)
+        navigate('/understand')
+      } catch (err) {
+        setError(err.message)
+      } finally {
+        setBusy(false)
+      }
     } else {
       setIdx(idx + 1)
     }
@@ -67,6 +78,7 @@ export default function Quiz() {
               {options.map((l, i) => (
                 <button
                   key={i}
+                  disabled={busy}
                   onClick={() => choose(i)}
                   className={cn(
                     'w-full flex items-center gap-3 rounded-xl border p-3.5 text-left text-sm transition',
@@ -97,10 +109,12 @@ export default function Quiz() {
             <ArrowLeft size={16} /> Kembali
           </Button>
         )}
-        <Button disabled={selected === null} onClick={next}>
-          {idx + 1 >= total ? 'Lihat hasil' : 'Lanjut'} <ArrowRight size={16} />
+        <Button disabled={selected === null || busy} onClick={next}>
+          {busy ? 'Menyimpan…' : idx + 1 >= total ? 'Lihat hasil' : 'Lanjut'} <ArrowRight size={16} />
         </Button>
       </div>
+
+      {error && <p role="alert" className="mt-4 rounded-xl bg-rose-50 p-3 text-sm font-semibold text-rose-700 dark:bg-rose-500/10 dark:text-rose-300">{error}</p>}
 
       <div className="mt-6">
         <Link to="/screening" className="text-sm font-semibold text-slate-500 dark:text-slate-400 hover:text-brand-deep dark:hover:text-brand">

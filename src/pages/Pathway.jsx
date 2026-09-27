@@ -50,14 +50,8 @@ export default function Pathway() {
       </div>
 
       <div className="flex flex-wrap gap-3 mt-6">
-        <Link to="/actions">
-          <Button>
-            Mulai langkah kecil <ArrowRight size={16} />
-          </Button>
-        </Link>
-        <Link to="/personalize">
-          <Button variant="secondary">Ubah pilihan</Button>
-        </Link>
+        <Button as={Link} to="/actions">Mulai langkah kecil <ArrowRight size={16} /></Button>
+        <Button as={Link} to="/personalize" variant="secondary">Ubah pilihan</Button>
       </div>
     </motion.div>
   )

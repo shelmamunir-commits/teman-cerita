@@ -7,28 +7,31 @@ import Card from '../components/ui/Card.jsx'
 import SectionLabel from '../components/ui/SectionLabel.jsx'
 import { useApp } from '../context/AppContext.jsx'
 import { CKG_CODES } from '../data/ckgCodes.js'
-import { CATEGORY_META } from '../lib/constants.js'
 
 export default function ResultInput() {
   const { name, setName, submitResult } = useApp()
   const navigate = useNavigate()
   const [code, setCode] = useState('')
   const [error, setError] = useState('')
+  const [busy, setBusy] = useState(false)
 
-  const pick = (k) => {
-    setCode(k)
-    setError('')
-  }
-
-  const submit = (e) => {
+  const submit = async (e) => {
     e.preventDefault()
+    if (busy) return
     const value = code.trim().toUpperCase()
     if (!CKG_CODES[value]) {
-      setError('Kode nggak dikenali. Coba salah satu kode demo di bawah.')
+      setError('Kode tidak dikenali. Periksa kembali penulisannya atau hubungi pengelola.')
       return
     }
-    const ok = submitResult(value)
-    if (ok) navigate('/understand')
+    try {
+      setBusy(true)
+      const ok = await submitResult(value)
+      if (ok) navigate('/understand')
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setBusy(false)
+    }
   }
 
   return (
@@ -37,7 +40,7 @@ export default function ResultInput() {
         Masukkan hasil skriningmu
       </h1>
       <p className="mt-2 text-[14.5px] text-slate-500 dark:text-slate-400 leading-relaxed">
-        Ketik kode dari hasil CKG kamu. Nggak punya? Coba salah satu kode demo di bawah.
+        Ketik kode hasil CKG yang diberikan oleh petugas atau pengelola Pesma.
       </p>
 
       <form onSubmit={submit}>
@@ -45,6 +48,7 @@ export default function ResultInput() {
           <SectionLabel>Nama panggilan (opsional)</SectionLabel>
           <input
             type="text"
+            aria-label="Nama panggilan"
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="mis. Raka"
@@ -55,6 +59,7 @@ export default function ResultInput() {
             <SectionLabel>Kode hasil CKG</SectionLabel>
             <input
               type="text"
+              aria-label="Kode hasil CKG"
               value={code}
               onChange={(e) => {
                 setCode(e.target.value)
@@ -67,24 +72,12 @@ export default function ResultInput() {
             <div className="h-5 mt-1.5 text-xs font-semibold text-rose-500">{error}</div>
           </div>
 
-          <SectionLabel>Coba kode demo</SectionLabel>
-          <div className="flex flex-wrap gap-2">
-            {Object.keys(CKG_CODES).map((k) => (
-              <button
-                key={k}
-                type="button"
-                onClick={() => pick(k)}
-                className="rounded-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 px-4 py-2 text-[13px] font-bold hover:border-brand dark:hover:border-brand transition"
-              >
-                {k} · <span className="text-brand-deep dark:text-brand">{CATEGORY_META[CKG_CODES[k].category].label}</span>
-              </button>
-            ))}
-          </div>
+          <p className="mt-3 text-xs leading-relaxed text-slate-400">Kode tidak ditampilkan di aplikasi untuk menjaga keakuratan hasil dan mencegah pemilihan kategori secara mandiri.</p>
         </Card>
 
         <div className="mt-6">
-          <Button type="submit">
-            Analisis hasilku <ArrowRight size={16} />
+          <Button type="submit" disabled={busy || !code.trim()}>
+            {busy ? 'Menyimpan…' : 'Analisis hasilku'} <ArrowRight size={16} />
           </Button>
         </div>
       </form>

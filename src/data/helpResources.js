@@ -11,6 +11,53 @@ export const HOTLINE = {
   url: 'https://www.healing119.id/',
 }
 
+const WHATSAPP_MESSAGE = encodeURIComponent("Assalamu'alaikum, saya menghubungi melalui aplikasi Teman Cerita dan membutuhkan bantuan.")
+
+export const SCHOOL_HELP_CONTACTS = [
+  {
+    name: "Ustadzah Ma'rufah",
+    number: '+62 857-0692-2188',
+    url: `https://wa.me/6285706922188?text=${WHATSAPP_MESSAGE}`,
+  },
+  {
+    name: 'Kak Caca',
+    number: '+62 895-3781-96107',
+    url: `https://wa.me/62895378196107?text=${WHATSAPP_MESSAGE}`,
+  },
+]
+
+export const EMERGENCY_CONTACTS = [
+  {
+    id: 'kak-caca',
+    name: 'Kak Caca',
+    role: 'Pendamping Pesma',
+    detail: '+62 895-3781-96107',
+    url: `https://wa.me/62895378196107?text=${WHATSAPP_MESSAGE}`,
+    action: 'WhatsApp',
+    kind: 'whatsapp',
+    external: true,
+  },
+  {
+    id: 'ambulan',
+    name: 'Ambulan',
+    role: 'Gawat darurat medis',
+    detail: '119',
+    url: 'tel:119',
+    action: 'Telepon 119',
+    kind: 'phone',
+  },
+  {
+    id: 'satgas-ppks-unesa',
+    name: 'Pelaporan Satgas PPKS UNESA',
+    role: 'Formulir pelaporan resmi',
+    detail: 'Google Forms',
+    url: 'https://docs.google.com/forms/d/e/1FAIpQLSd8CheSYJP7xyuQxIZTF3pOoJwCbhGGryn0G_cnKYwOMvg5nw/viewform?fbclid=PAAaaMds9C0xeGTIdpchuESieKmqDcdWLPjbXRKXdT6moVYNbZLWt1PwC0-9U&pli=1',
+    action: 'Buka formulir',
+    kind: 'form',
+    external: true,
+  },
+]
+
 export const EMERGENCY_NUMBERS = [
   { number: '112', label: 'Darurat terpadu', desc: 'Tersedia di wilayah yang sudah menerapkan layanan 112' },
   { number: '110', label: 'Kepolisian', desc: 'Ancaman keselamatan / tindak kriminal' },
@@ -19,8 +66,8 @@ export const EMERGENCY_NUMBERS = [
 ]
 
 export const EMERGENCY_STEPS = [
-  'Hubungi orang dewasa yang kamu percaya sekarang juga — orang tua, kakak, atau guru.',
-  'Hubungi Healing119.id melalui 119 ext. 8 atau chat di situs resminya.',
-  'Dalam keadaan darurat, hubungi 112 jika tersedia di wilayahmu, 119 untuk kegawatdaruratan medis, atau datangi IGD terdekat.',
+  'Hubungi Kak Caca sebagai Pendamping Pesma jika kamu membutuhkan bantuan dan pendampingan.',
+  'Untuk kegawatdaruratan medis, segera hubungi Ambulan melalui 119.',
+  'Untuk pelaporan kekerasan, buka formulir Pelaporan Satgas PPKS UNESA.',
   'Jangan tinggal sendirian — minta seseorang menemani sampai bantuan tiba.',
 ]

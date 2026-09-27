@@ -49,7 +49,7 @@ export default function Community() {
     <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35 }}>
       <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">Ruang Cerita</h1>
       <p className="mt-2 text-[14.5px] text-slate-500 dark:text-slate-400 leading-relaxed">
-        Simulasi ruang dukungan anonim. Cerita tersimpan lokal di perangkat ini dan tidak dipublikasikan ke internet.
+        Ruang latihan dukungan pribadi. Cerita tersimpan di perangkat ini, dipisahkan per akun, dan tidak dipublikasikan ke internet.
       </p>
 
       <div className="mt-4 rounded-xl border border-blue-200/60 dark:border-blue-500/30 bg-blue-50/60 dark:bg-blue-500/5 p-4">
@@ -67,6 +67,7 @@ export default function Community() {
         <SectionLabel>Bagikan ceritamu</SectionLabel>
         <input
           value={title}
+          aria-label="Judul cerita"
           onChange={(e) => setTitle(e.target.value)}
           placeholder="Judul (opsional)"
           maxLength={80}
@@ -74,6 +75,7 @@ export default function Community() {
         />
         <textarea
           value={body}
+          aria-label="Isi cerita"
           onChange={(e) => setBody(e.target.value)}
           rows={3}
           placeholder="Apa yang ingin kamu ceritakan? (jangan sebut identitas asli ya)"
@@ -106,7 +108,10 @@ export default function Community() {
                 {p.author.charAt(0)}
               </span>
               <div>
-                <div className="text-[13px] font-bold text-slate-800 dark:text-slate-100">{p.author}</div>
+                <div className="flex flex-wrap items-center gap-2 text-[13px] font-bold text-slate-800 dark:text-slate-100">
+                  {p.author}
+                  <span className="rounded-full bg-slate-100 px-2 py-0.5 text-[9px] uppercase tracking-wide text-slate-500 dark:bg-slate-700 dark:text-slate-300">{p.isUserEntry ? 'Catatan saya' : 'Contoh'}</span>
+                </div>
                 <div className="text-[11px] text-slate-400">{p.time}{p.mood !== null ? ` · ${MOODS[p.mood]}` : ''}</div>
               </div>
             </div>
@@ -137,6 +142,7 @@ export default function Community() {
               <div className="mt-3 flex gap-2">
                 <input
                   value={replyText}
+                  aria-label={`Balasan untuk ${p.title}`}
                   onChange={(e) => setReplyText(e.target.value)}
                   placeholder="Tulis balasan…"
                   maxLength={500}

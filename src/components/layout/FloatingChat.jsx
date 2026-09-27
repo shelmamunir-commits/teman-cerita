@@ -3,9 +3,14 @@ import { MessageCircle, X } from 'lucide-react'
 import ChatWidget from '../chat/ChatWidget.jsx'
 import { useChat } from '../../context/ChatContext.jsx'
 import Logo from '../ui/Logo.jsx'
+import { useAuth } from '../../context/AuthContext.jsx'
+import { PERMISSIONS } from '../../lib/permissions.js'
 
 export default function FloatingChat() {
   const { isOpen, toggle } = useChat()
+  const { hasPermission } = useAuth()
+
+  if (!hasPermission(PERMISSIONS.WELLBEING_USE_SELF)) return null
 
   return (
     <>
@@ -30,7 +35,7 @@ export default function FloatingChat() {
               <Logo className="w-8 h-8" />
               <div>
                 <div className="font-bold text-sm text-slate-900 dark:text-white">Asisten Teman Cerita</div>
-                <div className="text-[11px] text-emerald-500 font-semibold">● Online</div>
+                <div className="text-[11px] text-slate-500 dark:text-slate-400">Asisten otomatis · bukan layanan darurat</div>
               </div>
             </div>
             <ChatWidget />

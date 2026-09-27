@@ -66,14 +66,8 @@ export default function Understand() {
       )}
 
       <div className="flex flex-wrap gap-3 mt-6">
-        <Link to="/personalize">
-          <Button>
-            Personalisasi jalurku <ArrowRight size={16} />
-          </Button>
-        </Link>
-        <Link to="/help">
-          <Button variant="secondary">Lihat bantuan</Button>
-        </Link>
+        <Button as={Link} to="/personalize">Personalisasi jalurku <ArrowRight size={16} /></Button>
+        <Button as={Link} to="/help" variant="secondary">Lihat bantuan</Button>
       </div>
     </motion.div>
   )

@@ -7,23 +7,25 @@ import { useSettings } from '../../context/SettingsContext.jsx'
 import { useApp } from '../../context/AppContext.jsx'
 import { GOALS } from '../../data/goals.js'
 import { cn } from '../../lib/cn.js'
+import { Link } from 'react-router-dom'
 
-const STEPS = ['Disclaimer', 'Kenalan', 'Tujuan']
+const STEPS = ['Privasi', 'Kenalan', 'Tujuan']
 
 export default function Onboarding() {
-  const { onboarded, setOnboarded, setConsent } = useSettings()
+  const { consent, onboarded, setOnboarded, setConsent } = useSettings()
   const { name, setName, goal, setGoal } = useApp()
   const [step, setStep] = useState(0)
   const [draftName, setDraftName] = useState(name)
+  const [accepted, setAccepted] = useState(consent)
 
   const finish = () => {
     setName(draftName.trim())
-    setConsent(true)
+    setConsent(accepted)
     setOnboarded(true)
   }
 
   return (
-    <Modal open={!onboarded} onClose={() => {}} title={`Selamat datang di Teman Cerita · ${step + 1}/${STEPS.length}`}>
+    <Modal open={!onboarded} onClose={() => {}} dismissible={false} title={`Selamat datang di Teman Cerita · ${step + 1}/${STEPS.length}`}>
       <div className="flex gap-1.5 mb-5">
         {STEPS.map((s, i) => (
           <div key={s} className={cn('h-1.5 flex-1 rounded-full', i <= step ? 'bg-brand' : 'bg-slate-200 dark:bg-slate-700')} />
@@ -39,14 +41,21 @@ export default function Onboarding() {
                 psikolog atau tenaga kesehatan. Hasil yang kamu lihat hanyalah gambaran awal.
               </p>
               <p>
-                <b className="text-slate-900 dark:text-white">Data inti tersimpan lokal.</b> Hasil skrining, mood, jurnal,
-                dan percakapan disimpan di perangkatmu (localStorage). Fitur peta memakai Google Maps dan hanya memakai
-                lokasi presisi setelah kamu memberikan izin.
+                <b className="text-slate-900 dark:text-white">Privasi datamu dibatasi.</b> Profil dan ringkasan skrining
+                akun disimpan untuk riwayat dan dashboard sekolah. Mood, jurnal, dan percakapan tetap di perangkatmu.
+                Fitur peta memakai lokasi presisi hanya setelah kamu memberikan izin.
               </p>
               <p className="text-[12.5px] text-slate-400">
                 Kalau kamu sedang dalam krisis, segera buka{' '}
                 <span className="font-bold text-rose-500">Bantuan Darurat</span>.
               </p>
+              <Link to="/privasi" className="inline-block text-[12.5px] font-bold text-brand-deep underline dark:text-brand">
+                Baca informasi privasi dan penggunaan data
+              </Link>
+              <label className="flex items-start gap-2 rounded-xl border border-slate-200 p-3 text-[12.5px] dark:border-slate-700">
+                <input type="checkbox" checked={accepted} onChange={(event) => setAccepted(event.target.checked)} className="mt-0.5" />
+                <span>Saya memahami cara Teman Cerita menyimpan dan menggunakan data saya.</span>
+              </label>
             </div>
           </motion.div>
         )}
@@ -58,6 +67,7 @@ export default function Onboarding() {
             </label>
             <input
               value={draftName}
+              aria-label="Nama panggilan"
               onChange={(e) => setDraftName(e.target.value)}
               placeholder="mis. Raka"
               className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-brand"
@@ -100,7 +110,7 @@ export default function Onboarding() {
           </Button>
         )}
         {step < 2 ? (
-          <Button className="flex-1" onClick={() => setStep(step + 1)}>
+          <Button className="flex-1" disabled={step === 0 && !accepted} onClick={() => setStep(step + 1)}>
             Lanjut <ArrowRight size={16} />
           </Button>
         ) : (

@@ -8,10 +8,11 @@ import Button from '../components/ui/Button.jsx'
 import DailyCheckIn from '../components/home/DailyCheckIn.jsx'
 import Triage from '../components/home/Triage.jsx'
 import Goals from '../components/home/Goals.jsx'
-import { useChat } from '../context/ChatContext.jsx'
 import { useMood } from '../context/MoodContext.jsx'
 import { useSettings } from '../context/SettingsContext.jsx'
 import { dateKey } from '../components/mood/MoodCalendar.jsx'
+import { useAuth } from '../context/AuthContext.jsx'
+import { PERMISSIONS } from '../lib/permissions.js'
 
 const FEATURES = [
   { icon: FileSearch, color: '#40ae87', bg: '#e1fbfa', t: 'Pahami Hasil Skrining', d: 'Sistem menerjemahkan hasil CKG jadi bahasa yang mudah dipahami — tanpa diagnosis.', to: '/result' },
@@ -21,14 +22,14 @@ const FEATURES = [
   { icon: NotebookPen, color: '#7a5af8', bg: '#f2effe', t: 'Mood Tracker & Jurnal', d: 'Catat mood harian, tulis jurnal syukur, lihat polanya.', to: '/jurnal' },
   { icon: ClipboardList, color: '#f5a623', bg: '#fef6e7', t: 'Skrining Mandiri', d: 'Cek kecemasan, mood, stres, tidur, dan beban belajar.', to: '/screening' },
   { icon: BookOpen, color: '#40ae87', bg: '#e1fbfa', t: 'Ruang Paham', d: 'Materi psikoedukasi berbasis referensi, bisa dicari.', to: '/articles' },
-  { icon: MessageCircle, color: '#3899fe', bg: '#ebf3ff', t: 'Asisten Teman Cerita', d: 'Ngobrol tentang kondisimu dan dapat saran langkah awal.', chat: true },
+  { icon: MessageCircle, color: '#3899fe', bg: '#ebf3ff', t: 'Asisten Teman Cerita', d: 'Ngobrol tentang kondisimu dan dapat saran langkah awal.', to: '/chat' },
   { icon: Users, color: '#7a5af8', bg: '#f2effe', t: 'Ruang Cerita', d: 'Berbagi dan saling dukung secara anonim.', to: '/komunitas' },
 ]
 
 const QUICK = [
-  { to: '/mood', icon: CalendarHeart, t: 'Mood tracker', d: 'Catat & pantau mood harian' },
-  { to: '/journal', icon: NotebookPen, t: 'Jurnal harian', d: 'Syukur, jadwal, catatan bebas' },
-  { to: '/dashboard', icon: LayoutDashboard, t: 'Dashboard sekolah', d: 'Demo tampilan psikolog & guru' },
+  { to: '/mood', icon: CalendarHeart, t: 'Mood tracker', d: 'Catat & pantau mood harian', permission: PERMISSIONS.WELLBEING_USE_SELF },
+  { to: '/journal', icon: NotebookPen, t: 'Jurnal harian', d: 'Syukur, jadwal, catatan bebas', permission: PERMISSIONS.WELLBEING_USE_SELF },
+  { to: '/dashboard', icon: LayoutDashboard, t: 'Dashboard sekolah', d: 'Ringkasan skrining untuk petugas', permission: PERMISSIONS.DASHBOARD_READ_ALL },
 ]
 
 function GentleLandscape() {
@@ -48,12 +49,14 @@ function GentleLandscape() {
 }
 
 export default function Home() {
-  const { open } = useChat()
+  const { hasPermission } = useAuth()
+  const canUsePrivateFeatures = hasPermission(PERMISSIONS.WELLBEING_USE_SELF)
   const { entries } = useMood()
   const { reminder } = useSettings()
   const now = new Date()
   const todayKey = dateKey(now.getFullYear(), now.getMonth(), now.getDate())
   const checkedToday = entries[todayKey] !== undefined && entries[todayKey] !== null
+  const quickLinks = QUICK.filter((item) => hasPermission(item.permission))
 
   return (
     <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35 }}>
@@ -62,7 +65,7 @@ export default function Home() {
         <GentleLandscape />
         <div className="relative z-10 max-w-2xl mx-auto">
           <span className="inline-block text-[11px] font-extrabold uppercase tracking-widest bg-white/15 rounded-full px-3 py-1.5 mb-5">
-            Pesma Nur Alannur · Kesehatan Mental Remaja
+            Pesma Nur Alannur · Teman Cerita
           </span>
           <h1 className="text-3xl sm:text-[2.6rem] leading-[1.15] font-extrabold">
             Pahami Dirimu, Temukan Langkahmu.
@@ -71,15 +74,11 @@ export default function Home() {
             Teman Cerita menemanimu memahami hasil skrining kesehatan (CKG) dan menemukan langkah nyata. Ayo pahami dirimu, rawat kesehatan mentalmu, dan cari bantuan sesuai kebutuhan. Kamu tidak sendirian.
           </p>
           <div className="mt-7 flex flex-wrap justify-center gap-3">
-            <Link to="/result">
-              <Button variant="white">
-                Masukkan Kode Hasil CKG <ArrowRight size={16} />
-              </Button>
-            </Link>
-            <Link to="/screening">
-              <button className="inline-flex items-center gap-2 rounded-full border border-white/40 text-white text-sm font-semibold px-6 py-3 hover:bg-white/10 transition">
-                Skrining Mandiri
-              </button>
+            <Button as={Link} to="/result" variant="white">
+              Masukkan Kode Hasil CKG <ArrowRight size={16} />
+            </Button>
+            <Link to="/screening" className="inline-flex items-center gap-2 rounded-full border border-white/40 text-white text-sm font-semibold px-6 py-3 hover:bg-white/10 transition">
+              Skrining Mandiri
             </Link>
           </div>
         </div>
@@ -94,7 +93,7 @@ export default function Home() {
       </div>
 
       {/* DAILY CHECK-IN */}
-      {reminder && !checkedToday && (
+      {canUsePrivateFeatures && reminder && !checkedToday && (
         <div className="mt-6 flex items-center gap-2 rounded-xl border border-amber-300/60 dark:border-amber-500/40 bg-amber-50/70 dark:bg-amber-500/10 px-4 py-3 text-sm text-amber-800 dark:text-amber-300">
           <Bell size={16} className="shrink-0" />
           <span>
@@ -103,18 +102,16 @@ export default function Home() {
           </span>
         </div>
       )}
-      <div className="mt-6">
-        <DailyCheckIn />
-      </div>
+      {canUsePrivateFeatures && <div className="mt-6"><DailyCheckIn /></div>}
 
       {/* GOALS */}
-      <div className="mt-10 text-center">
+      {canUsePrivateFeatures && <><div className="mt-10 text-center">
         <h2 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">Apa yang kamu cari?</h2>
         <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">Mulai dari yang paling kamu rasakan sekarang.</p>
       </div>
       <div className="mt-5">
         <Goals />
-      </div>
+      </div></>}
 
       {/* FITUR UNGGULAN */}
       <div className="mt-14 text-center">
@@ -137,15 +134,7 @@ export default function Home() {
               <p className="mt-2 text-[12.5px] text-slate-500 dark:text-slate-400 leading-relaxed">{f.d}</p>
             </>
           )
-          return f.chat ? (
-            <button key={f.t} onClick={open} className={cardCls}>
-              {inner}
-            </button>
-          ) : (
-            <Link key={f.t} to={f.to} className={cardCls}>
-              {inner}
-            </Link>
-          )
+          return <Link key={f.t} to={f.to} className={cardCls}>{inner}</Link>
         })}
       </div>
 
@@ -157,15 +146,13 @@ export default function Home() {
             <p className="mt-2 text-white/85">Kenali kondisimu dan dapatkan langkah yang tepat dalam satu alur.</p>
           </div>
           <div className="shrink-0">
-            <Link to="/result">
-              <Button variant="white">Mulai sekarang</Button>
-            </Link>
+            <Button as={Link} to="/result" variant="white">Mulai sekarang</Button>
           </div>
         </div>
       </section>
 
       {/* AKSES CEPAT */}
-      <div className="mt-12 text-center">
+      {quickLinks.length > 0 && <><div className="mt-12 text-center">
         <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">Lengkapi perawatanmu</h2>
         <p className="mt-3 text-sm sm:text-base text-slate-500 dark:text-slate-400 max-w-2xl mx-auto">
           Alat bantu harian untuk memantau dan merawat kesehatan mentalmu.
@@ -173,7 +160,7 @@ export default function Home() {
       </div>
 
       <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4">
-        {QUICK.map((q) => (
+        {quickLinks.map((q) => (
           <Link
             key={q.to}
             to={q.to}
@@ -186,12 +173,13 @@ export default function Home() {
             <p className="mt-1 text-[13px] text-slate-500 dark:text-slate-400">{q.d}</p>
           </Link>
         ))}
-      </div>
+      </div></>}
 
       <div className="mt-8 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/60 p-5 text-[12.5px] leading-relaxed text-slate-500 dark:text-slate-400">
         <b className="text-brand-deep dark:text-brand">Aman &amp; bukan diagnosis.</b> Teman Cerita nggak mendiagnosis
         gangguan apa pun. Sistem hanya memilih, mempersonalisasi, lalu menyampaikan materi yang ditinjau berdasarkan referensi
-        terpercaya — keputusan klinis tetap di tangan psikolog. Data inti tersimpan di perangkatmu dan bisa dihapus kapan saja.
+        terpercaya — keputusan klinis tetap di tangan psikolog. Profil dan ringkasan skrining akun disimpan secara terpusat;
+        jurnal, mood, dan chat tetap tersimpan di perangkatmu.
       </div>
     </motion.div>
   )

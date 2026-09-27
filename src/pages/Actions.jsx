@@ -152,19 +152,9 @@ export default function Actions() {
       </div>
 
       <div className="flex flex-wrap gap-3 mt-6">
-        <Link to="/breathing">
-          <Button variant="secondary">
-            <Wind size={16} /> Coba latihan napas
-          </Button>
-        </Link>
-        <Link to="/meditasi">
-          <Button variant="secondary">
-            <Headphones size={16} /> Meditasi terpandu
-          </Button>
-        </Link>
-        <Link to="/help">
-          <Button>Mau cari bantuan?</Button>
-        </Link>
+        <Button as={Link} to="/breathing" variant="secondary"><Wind size={16} /> Coba latihan napas</Button>
+        <Button as={Link} to="/meditasi" variant="secondary"><Headphones size={16} /> Meditasi terpandu</Button>
+        <Button as={Link} to="/help">Mau cari bantuan?</Button>
       </div>
     </motion.div>
   )

@@ -2,6 +2,8 @@ import { createContext, useContext, useEffect, useRef, useState } from 'react'
 import { useLocalStorage } from '../hooks/useLocalStorage'
 import { chatReply } from '../engine/chatEngine'
 import { useApp } from './AppContext.jsx'
+import { useAuth } from './AuthContext.jsx'
+import { userStorageKey } from '../lib/storage.js'
 
 const INITIAL = [
   {
@@ -19,8 +21,13 @@ const ChatContext = createContext(null)
 
 export function ChatProvider({ children }) {
   const { result } = useApp()
+  const { user } = useAuth()
   const [isOpen, setIsOpen] = useState(false)
-  const [messages, setMessages] = useLocalStorage('bridge_chat', INITIAL)
+  const [messages, setMessages] = useLocalStorage(
+    userStorageKey('bridge_chat', user?.id),
+    INITIAL,
+    Array.isArray,
+  )
   const [typing, setTyping] = useState(false)
   const timer = useRef(null)
 

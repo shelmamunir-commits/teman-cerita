@@ -2,5 +2,7 @@
 
 Terima kasih untuk kontributor yang membantu project Teman Cerita dari Pesma Nur Alannur:
 
-- [Ahmad Khofi](https://github.com/azkhofi)
-- [Shelma Nasywa](https://github.com/shelmamunir-commits)
+- Prof. Dr. Mutimmatul Faidah, S.Ag., M.Ag.
+- [Shelma Nasywa Ramadhani Munir](https://github.com/shelmamunir-commits)
+- [Ahmad Zainul Khofi](https://github.com/azkhofi)
+- Mahla Zayani

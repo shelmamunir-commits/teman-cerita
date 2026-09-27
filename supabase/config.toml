@@ -1,0 +1,8 @@
+[functions.bootstrap-sysadmin]
+verify_jwt = false
+
+[functions.admin-api]
+verify_jwt = true
+
+[functions.change-password]
+verify_jwt = true
