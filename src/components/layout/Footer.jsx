@@ -58,7 +58,7 @@ export default function Footer() {
           © {new Date().getFullYear()} Teman Cerita · Pesma Nur Alannur<br />
           Dikembangkan oleh{' '}
           <span className="font-semibold text-emerald-300">
-            Prof. Dr. Mutimmatul Faidah, S.Ag., M.Ag., Shelma Nasywa Ramadhani Munir, Ahmad Zainul Khofi, dan Mahla Zayani
+            Prof. Dr. Mutimmatul Faidah, M.Ag., Shelma Nasywa Ramadhani Munir, Mahla Zayani, dan Ahmad Zainul Khofi
           </span>
         </div>
       </div>

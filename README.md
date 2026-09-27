@@ -4,7 +4,7 @@ Ruang aman dari Pesma Nur Alannur untuk memahami hasil skrining kesehatan (CKG),
 
 Website publik: [temanceritanura.web.id](https://temanceritanura.web.id/)
 
-© Teman Cerita · Pesma Nur Alannur — dikembangkan oleh **Prof. Dr. Mutimmatul Faidah, S.Ag., M.Ag.**, **Shelma Nasywa Ramadhani Munir**, **Ahmad Zainul Khofi**, dan **Mahla Zayani**.
+© Teman Cerita · Pesma Nur Alannur — dikembangkan oleh **Prof. Dr. Mutimmatul Faidah, M.Ag.**, **Shelma Nasywa Ramadhani Munir**, **Mahla Zayani**, dan **Ahmad Zainul Khofi**.
 
 ## Stack
 

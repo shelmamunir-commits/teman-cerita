@@ -2,7 +2,7 @@
   "name": "teman-cerita",
   "private": true,
   "version": "0.1.0",
-  "author": "Prof. Dr. Mutimmatul Faidah, S.Ag., M.Ag., Shelma Nasywa Ramadhani Munir, Ahmad Zainul Khofi, dan Mahla Zayani",
+  "author": "Prof. Dr. Mutimmatul Faidah, M.Ag., Shelma Nasywa Ramadhani Munir, Mahla Zayani, dan Ahmad Zainul Khofi",
   "type": "module",
   "scripts": {
     "dev": "vite",

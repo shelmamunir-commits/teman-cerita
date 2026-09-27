@@ -47,8 +47,8 @@ export const EMERGENCY_CONTACTS = [
     kind: 'phone',
   },
   {
-    id: 'satgas-ppks-unesa',
-    name: 'Pelaporan Satgas PPKS UNESA',
+    id: 'satgas-ppk-unesa',
+    name: 'Pelaporan Satgas PPK UNESA',
     role: 'Formulir pelaporan resmi',
     detail: 'Google Forms',
     url: 'https://docs.google.com/forms/d/e/1FAIpQLSd8CheSYJP7xyuQxIZTF3pOoJwCbhGGryn0G_cnKYwOMvg5nw/viewform?fbclid=PAAaaMds9C0xeGTIdpchuESieKmqDcdWLPjbXRKXdT6moVYNbZLWt1PwC0-9U&pli=1',
@@ -59,7 +59,7 @@ export const EMERGENCY_CONTACTS = [
   {
     id: 'mitigasi-crisis-center-unesa',
     name: 'Subdirektorat Mitigasi Crisis Center UNESA',
-    role: 'Pendampingan kondisi krisis',
+    role: 'Layanan kesehatan mental UNESA',
     detail: '+62 812-2611-7729',
     url: `https://wa.me/6281226117729?text=${WHATSAPP_MESSAGE}`,
     action: 'WhatsApp',
@@ -78,6 +78,6 @@ export const EMERGENCY_NUMBERS = [
 export const EMERGENCY_STEPS = [
   'Hubungi Kak Caca sebagai Pendamping Pesma jika kamu membutuhkan bantuan dan pendampingan.',
   'Untuk kegawatdaruratan medis, segera hubungi Ambulan melalui 119.',
-  'Untuk pelaporan kekerasan, buka formulir Pelaporan Satgas PPKS UNESA.',
+  'Untuk pelaporan kekerasan, buka formulir Pelaporan Satgas PPK UNESA.',
   'Jangan tinggal sendirian — minta seseorang menemani sampai bantuan tiba.',
 ]
