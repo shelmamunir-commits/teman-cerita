@@ -25,8 +25,8 @@ async function createUser(client, actor, input) {
   const { data: duplicate } = await client.from('profiles').select('id').eq('school_id', actor.school_id).eq('login_id', loginId).maybeSingle()
   if (duplicate) throw new Error(`ID ${loginId} sudah terdaftar.`)
   const customPassword = input.password_mode === 'custom'
-  if (customPassword && !isValidPassword(input.password)) {
-    throw new Error('Sandi custom harus terdiri dari 10–72 karakter serta mengandung huruf besar, huruf kecil, dan angka.')
+  if (customPassword && !isValidPassword(input.password, 8)) {
+    throw new Error('Sandi custom harus terdiri dari 8–72 karakter serta mengandung huruf besar, huruf kecil, dan angka.')
   }
   const password = customPassword ? input.password : temporaryPassword()
   const mustChangePassword = !customPassword

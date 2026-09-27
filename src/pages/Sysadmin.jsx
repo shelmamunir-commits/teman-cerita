@@ -157,7 +157,7 @@ function UserForm({ open, user, currentUserId, roles, onClose, onSaved }) {
   const editingSelf = Boolean(user?.id && user.id === currentUserId)
   const deactivating = user?.status === 'active' && form.status === 'inactive'
   const customPassword = !user?.id && form.password_mode === 'custom'
-  const passwordValid = form.password?.length >= 10
+  const passwordValid = form.password?.length >= 8
     && form.password?.length <= 72
     && /[A-Z]/.test(form.password)
     && /[a-z]/.test(form.password)
@@ -227,9 +227,9 @@ function UserForm({ open, user, currentUserId, roles, onClose, onSaved }) {
 
         {customPassword && (
           <div className="space-y-3 rounded-xl border border-slate-200 p-4 dark:border-slate-700">
-            <PasswordField label="Sandi custom" autoComplete="new-password" minLength={10} maxLength={72} value={form.password || ''} onChange={(e) => setForm({ ...form, password: e.target.value })} />
-            <p className={cn('text-xs', passwordValid ? 'text-emerald-600' : 'text-slate-500')}>10–72 karakter, mengandung huruf besar, huruf kecil, dan angka.</p>
-            <PasswordField label="Ulangi sandi custom" autoComplete="new-password" minLength={10} maxLength={72} value={form.password_confirm || ''} onChange={(e) => setForm({ ...form, password_confirm: e.target.value })} />
+            <PasswordField label="Sandi custom" autoComplete="new-password" minLength={8} maxLength={72} value={form.password || ''} onChange={(e) => setForm({ ...form, password: e.target.value })} />
+            <p className={cn('text-xs', passwordValid ? 'text-emerald-600' : 'text-slate-500')}>8–72 karakter, mengandung huruf besar, huruf kecil, dan angka.</p>
+            <PasswordField label="Ulangi sandi custom" autoComplete="new-password" minLength={8} maxLength={72} value={form.password_confirm || ''} onChange={(e) => setForm({ ...form, password_confirm: e.target.value })} />
             {form.password_confirm && !passwordMatches && <p className="text-xs font-semibold text-amber-600">Konfirmasi sandi belum sama.</p>}
           </div>
         )}

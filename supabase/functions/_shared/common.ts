@@ -56,9 +56,9 @@ export function temporaryPassword() {
   return `Tc!${Array.from(bytes, (byte) => alphabet[byte % alphabet.length]).join('')}`
 }
 
-export function isValidPassword(value: unknown) {
+export function isValidPassword(value: unknown, minLength = 10) {
   return typeof value === 'string'
-    && value.length >= 10
+    && value.length >= minLength
     && value.length <= 72
     && /[A-Z]/.test(value)
     && /[a-z]/.test(value)
