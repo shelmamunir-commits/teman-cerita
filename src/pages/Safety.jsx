@@ -48,7 +48,7 @@ export default function Safety() {
             <p className="mt-2 text-[12.5px] leading-relaxed text-slate-600 dark:text-slate-300">
               Jangan menghadapi kondisi darurat sendirian. Pilih bantuan yang paling sesuai dengan kondisimu.
             </p>
-            <div className="mt-4 grid gap-3 lg:grid-cols-3">
+            <div className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
               {EMERGENCY_CONTACTS.map((contact) => {
                 const ContactIcon = CONTACT_ICONS[contact.kind]
                 return (

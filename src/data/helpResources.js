@@ -56,6 +56,16 @@ export const EMERGENCY_CONTACTS = [
     kind: 'form',
     external: true,
   },
+  {
+    id: 'mitigasi-crisis-center-unesa',
+    name: 'Subdirektorat Mitigasi Crisis Center UNESA',
+    role: 'Pendampingan kondisi krisis',
+    detail: '+62 812-2611-7729',
+    url: `https://wa.me/6281226117729?text=${WHATSAPP_MESSAGE}`,
+    action: 'WhatsApp',
+    kind: 'whatsapp',
+    external: true,
+  },
 ]
 
 export const EMERGENCY_NUMBERS = [
