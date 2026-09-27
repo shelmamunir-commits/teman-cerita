@@ -55,3 +55,12 @@ export function temporaryPassword() {
   const alphabet = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789!@#$%'
   return `Tc!${Array.from(bytes, (byte) => alphabet[byte % alphabet.length]).join('')}`
 }
+
+export function isValidPassword(value: unknown) {
+  return typeof value === 'string'
+    && value.length >= 10
+    && value.length <= 72
+    && /[A-Z]/.test(value)
+    && /[a-z]/.test(value)
+    && /\d/.test(value)
+}

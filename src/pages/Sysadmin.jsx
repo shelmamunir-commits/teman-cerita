@@ -4,6 +4,7 @@ import { CircleCheck, Download, FileUp, KeyRound, Plus, RefreshCw, Shield, UserC
 import Card from '../components/ui/Card'
 import Button from '../components/ui/Button'
 import Modal from '../components/ui/Modal'
+import PasswordField from '../components/auth/PasswordField'
 import { invokeAuthenticatedFunction, supabase } from '../lib/supabase'
 import { PERMISSION_LABELS } from '../lib/permissions'
 import { PERMISSIONS } from '../lib/permissions'
@@ -17,7 +18,15 @@ const TABS = [
   { id: 'audit', label: 'Audit', icon: UserCog, permissions: [PERMISSIONS.AUDIT_READ] },
 ]
 
-const emptyUser = { login_id: '', full_name: '', class_name: '', role_id: '' }
+const emptyUser = {
+  login_id: '',
+  full_name: '',
+  class_name: '',
+  role_id: '',
+  password_mode: 'custom',
+  password: '',
+  password_confirm: '',
+}
 
 async function adminAction(action, payload = {}) {
   return invokeAuthenticatedFunction('admin-api', { action, ...payload })
@@ -105,7 +114,7 @@ export default function Sysadmin() {
         </>
       )}
 
-      <UserForm open={userModal} user={editingUser} currentUserId={currentUser?.id} roles={roles} onClose={() => setUserModal(false)} onSaved={async (result) => { setUserModal(false); setNotice(editingUser?.id ? 'Data pengguna berhasil diperbarui.' : 'Pengguna baru berhasil dibuat.'); if (result?.temporary_password) setCredentials([{ login_id: result.login_id, temporary_password: result.temporary_password }]); await load() }} />
+      <UserForm open={userModal} user={editingUser} currentUserId={currentUser?.id} roles={roles} onClose={() => setUserModal(false)} onSaved={async (result) => { setUserModal(false); setNotice(editingUser?.id ? 'Data pengguna berhasil diperbarui.' : result?.must_change_password ? 'Pengguna dibuat dengan sandi otomatis dan wajib menggantinya saat login.' : 'Pengguna dibuat dengan sandi custom dan dapat langsung digunakan.'); if (result?.temporary_password) setCredentials([{ login_id: result.login_id, temporary_password: result.temporary_password }]); await load() }} />
       <RoleForm open={roleModal} role={editingRole} permissions={permissions} onClose={() => setRoleModal(false)} onSaved={async () => { setRoleModal(false); setNotice('Role dan permission berhasil disimpan.'); await load() }} />
       <Modal open={Boolean(pendingReset)} onClose={() => setPendingReset(null)} title="Reset sandi pengguna?">
         <p className="text-sm leading-relaxed text-slate-600 dark:text-slate-300">Sandi lama <b>{pendingReset?.full_name}</b> akan langsung tidak berlaku. Pengguna akan memperoleh sandi sementara baru dan wajib menggantinya saat login.</p>
@@ -140,11 +149,99 @@ function UserForm({ open, user, currentUserId, roles, onClose, onSaved }) {
   const [error, setError] = useState('')
   const [busy, setBusy] = useState(false)
   const [confirmDeactivate, setConfirmDeactivate] = useState(false)
-  useEffect(() => { setForm(user || emptyUser); setError(''); setConfirmDeactivate(false) }, [user, open])
+  useEffect(() => {
+    setForm(user?.id ? user : { ...emptyUser, ...user })
+    setError('')
+    setConfirmDeactivate(false)
+  }, [user, open])
   const editingSelf = Boolean(user?.id && user.id === currentUserId)
   const deactivating = user?.status === 'active' && form.status === 'inactive'
-  const save = async (event) => { event.preventDefault(); if (deactivating && !confirmDeactivate) return setError('Konfirmasikan penonaktifan akun terlebih dahulu.'); setBusy(true); setError(''); try { const result = await adminAction(user?.id ? 'update-user' : 'create-user', user?.id ? { user_id: user.id, profile: form } : { profile: form }); onSaved(result) } catch (err) { setError(err.message) } finally { setBusy(false) } }
-  return <Modal open={open} onClose={onClose} title={user?.id ? 'Edit pengguna' : 'Tambah pengguna'}><form onSubmit={save} className="space-y-4">{[['login_id', 'ID pengguna'], ['full_name', 'Nama lengkap'], ['class_name', 'Kelas / kelompok']].map(([key, label]) => <label key={key} className="block text-sm font-semibold">{label}<input disabled={key === 'login_id' && user?.id} minLength={key === 'class_name' ? undefined : key === 'login_id' ? 3 : 2} maxLength={key === 'login_id' ? 50 : key === 'full_name' ? 120 : 80} value={form[key] || ''} onChange={(e) => setForm({ ...form, [key]: e.target.value })} className="mt-2 w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 font-normal dark:border-slate-700 dark:bg-slate-900" /></label>)}<label className="block text-sm font-semibold">Role<select disabled={editingSelf} value={form.role_id || ''} onChange={(e) => setForm({ ...form, role_id: e.target.value })} className="mt-2 w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 disabled:cursor-not-allowed disabled:opacity-60 dark:border-slate-700 dark:bg-slate-900"><option value="">Pilih role</option>{roles.map((role) => <option key={role.id} value={role.id}>{role.name}</option>)}</select></label>{user?.id && <label className="flex items-center gap-2 text-sm"><input disabled={editingSelf} type="checkbox" checked={form.status === 'active'} onChange={(e) => { setForm({ ...form, status: e.target.checked ? 'active' : 'inactive' }); setConfirmDeactivate(false) }} /> Akun aktif</label>}{editingSelf && <p className="rounded-lg bg-blue-50 p-3 text-xs text-blue-700 dark:bg-blue-500/10 dark:text-blue-300">Role dan status akun yang sedang digunakan hanya dapat diubah oleh Sysadmin lain.</p>}{deactivating && <label className="flex items-start gap-2 rounded-xl border border-amber-300 bg-amber-50 p-3 text-xs leading-relaxed text-amber-800 dark:border-amber-500/40 dark:bg-amber-500/10 dark:text-amber-200"><input type="checkbox" checked={confirmDeactivate} onChange={(e) => setConfirmDeactivate(e.target.checked)} className="mt-0.5" /> Saya memahami pengguna akan langsung kehilangan akses ke aplikasi.</label>}{error && <p role="alert" className="text-sm text-rose-600">{error}</p>}<Button type="submit" disabled={busy || !form.login_id.trim() || !form.full_name.trim() || !form.role_id || (deactivating && !confirmDeactivate)} className="w-full">{busy ? 'Menyimpan…' : 'Simpan'}</Button></form></Modal>
+  const customPassword = !user?.id && form.password_mode === 'custom'
+  const passwordValid = form.password?.length >= 10
+    && form.password?.length <= 72
+    && /[A-Z]/.test(form.password)
+    && /[a-z]/.test(form.password)
+    && /\d/.test(form.password)
+  const passwordMatches = form.password === form.password_confirm
+  const save = async (event) => {
+    event.preventDefault()
+    if (deactivating && !confirmDeactivate) return setError('Konfirmasikan penonaktifan akun terlebih dahulu.')
+    if (customPassword && !passwordValid) return setError('Sandi custom belum memenuhi semua ketentuan.')
+    if (customPassword && !passwordMatches) return setError('Konfirmasi sandi belum sama.')
+    setBusy(true)
+    setError('')
+    try {
+      const { password_confirm: _passwordConfirm, ...profile } = form
+      const result = await adminAction(
+        user?.id ? 'update-user' : 'create-user',
+        user?.id ? { user_id: user.id, profile } : { profile },
+      )
+      onSaved(result)
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setBusy(false)
+    }
+  }
+  const disabled = busy
+    || !form.login_id?.trim()
+    || !form.full_name?.trim()
+    || !form.role_id
+    || (deactivating && !confirmDeactivate)
+    || (customPassword && (!passwordValid || !passwordMatches))
+
+  return (
+    <Modal open={open} onClose={onClose} title={user?.id ? 'Edit pengguna' : 'Tambah pengguna'}>
+      <form onSubmit={save} className="space-y-4">
+        {[['login_id', 'ID pengguna'], ['full_name', 'Nama lengkap'], ['class_name', 'Kelas / kelompok']].map(([key, label]) => (
+          <label key={key} className="block text-sm font-semibold">
+            {label}
+            <input disabled={key === 'login_id' && user?.id} minLength={key === 'class_name' ? undefined : key === 'login_id' ? 3 : 2} maxLength={key === 'login_id' ? 50 : key === 'full_name' ? 120 : 80} value={form[key] || ''} onChange={(e) => setForm({ ...form, [key]: e.target.value })} className="mt-2 w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 font-normal dark:border-slate-700 dark:bg-slate-900" />
+          </label>
+        ))}
+        <label className="block text-sm font-semibold">
+          Role
+          <select disabled={editingSelf} value={form.role_id || ''} onChange={(e) => setForm({ ...form, role_id: e.target.value })} className="mt-2 w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 disabled:cursor-not-allowed disabled:opacity-60 dark:border-slate-700 dark:bg-slate-900">
+            <option value="">Pilih role</option>
+            {roles.map((role) => <option key={role.id} value={role.id}>{role.name}</option>)}
+          </select>
+        </label>
+
+        {!user?.id && (
+          <fieldset>
+            <legend className="text-sm font-semibold">Pembuatan sandi</legend>
+            <div className="mt-2 grid gap-2 sm:grid-cols-2">
+              <label className={cn('rounded-xl border p-3 text-sm', form.password_mode === 'custom' ? 'border-brand bg-brand/5' : 'border-slate-200 dark:border-slate-700')}>
+                <input type="radio" name="password_mode" value="custom" checked={form.password_mode === 'custom'} onChange={() => setForm({ ...form, password_mode: 'custom' })} className="mr-2" />
+                <b>Sandi custom</b>
+                <span className="mt-1 block text-xs text-slate-500">Pengguna tidak wajib menggantinya saat login.</span>
+              </label>
+              <label className={cn('rounded-xl border p-3 text-sm', form.password_mode === 'generated' ? 'border-brand bg-brand/5' : 'border-slate-200 dark:border-slate-700')}>
+                <input type="radio" name="password_mode" value="generated" checked={form.password_mode === 'generated'} onChange={() => setForm({ ...form, password_mode: 'generated', password: '', password_confirm: '' })} className="mr-2" />
+                <b>Sandi otomatis</b>
+                <span className="mt-1 block text-xs text-slate-500">Sistem membuat sandi sementara yang wajib diganti.</span>
+              </label>
+            </div>
+          </fieldset>
+        )}
+
+        {customPassword && (
+          <div className="space-y-3 rounded-xl border border-slate-200 p-4 dark:border-slate-700">
+            <PasswordField label="Sandi custom" autoComplete="new-password" minLength={10} maxLength={72} value={form.password || ''} onChange={(e) => setForm({ ...form, password: e.target.value })} />
+            <p className={cn('text-xs', passwordValid ? 'text-emerald-600' : 'text-slate-500')}>10–72 karakter, mengandung huruf besar, huruf kecil, dan angka.</p>
+            <PasswordField label="Ulangi sandi custom" autoComplete="new-password" minLength={10} maxLength={72} value={form.password_confirm || ''} onChange={(e) => setForm({ ...form, password_confirm: e.target.value })} />
+            {form.password_confirm && !passwordMatches && <p className="text-xs font-semibold text-amber-600">Konfirmasi sandi belum sama.</p>}
+          </div>
+        )}
+
+        {user?.id && <label className="flex items-center gap-2 text-sm"><input disabled={editingSelf} type="checkbox" checked={form.status === 'active'} onChange={(e) => { setForm({ ...form, status: e.target.checked ? 'active' : 'inactive' }); setConfirmDeactivate(false) }} /> Akun aktif</label>}
+        {editingSelf && <p className="rounded-lg bg-blue-50 p-3 text-xs text-blue-700 dark:bg-blue-500/10 dark:text-blue-300">Role dan status akun yang sedang digunakan hanya dapat diubah oleh Sysadmin lain.</p>}
+        {deactivating && <label className="flex items-start gap-2 rounded-xl border border-amber-300 bg-amber-50 p-3 text-xs leading-relaxed text-amber-800 dark:border-amber-500/40 dark:bg-amber-500/10 dark:text-amber-200"><input type="checkbox" checked={confirmDeactivate} onChange={(e) => setConfirmDeactivate(e.target.checked)} className="mt-0.5" /> Saya memahami pengguna akan langsung kehilangan akses ke aplikasi.</label>}
+        {error && <p role="alert" className="text-sm text-rose-600">{error}</p>}
+        <Button type="submit" disabled={disabled} className="w-full">{busy ? 'Menyimpan…' : 'Simpan'}</Button>
+      </form>
+    </Modal>
+  )
 }
 
 function RoleForm({ open, role, permissions, onClose, onSaved }) {

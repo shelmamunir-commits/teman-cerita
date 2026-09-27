@@ -16,7 +16,7 @@ export default function ChangePassword() {
   const [error, setError] = useState('')
   const [busy, setBusy] = useState(false)
   const requirements = [
-    ['Minimal 10 karakter', password.length >= 10],
+    ['10–72 karakter', password.length >= 10 && password.length <= 72],
     ['Mengandung huruf besar dan kecil', /[A-Z]/.test(password) && /[a-z]/.test(password)],
     ['Mengandung angka', /\d/.test(password)],
   ]
@@ -45,9 +45,9 @@ export default function ChangePassword() {
         <h1 className="mt-3 text-2xl font-bold text-slate-900 dark:text-white">{profile?.must_change_password ? 'Buat sandi baru' : 'Ganti sandi'}</h1>
         <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">{profile?.must_change_password ? 'Sandi sementara harus diganti sebelum melanjutkan.' : 'Gunakan sandi baru yang kuat dan tidak dipakai pada layanan lain.'}</p>
         <form onSubmit={submit} className="mt-5 space-y-4">
-          <PasswordField label="Sandi baru" autoComplete="new-password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Masukkan sandi baru" autoFocus />
+          <PasswordField label="Sandi baru" autoComplete="new-password" minLength={10} maxLength={72} value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Masukkan sandi baru" autoFocus />
           <ul className="space-y-1.5 text-xs">{requirements.map(([label, met]) => <li key={label} className={met ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-400'}>{met ? <Check size={14} className="mr-1.5 inline" /> : <Circle size={14} className="mr-1.5 inline" />}{label}</li>)}</ul>
-          <PasswordField label="Ulangi sandi baru" autoComplete="new-password" value={confirm} onChange={(e) => setConfirm(e.target.value)} placeholder="Ketik ulang sandi" />
+          <PasswordField label="Ulangi sandi baru" autoComplete="new-password" minLength={10} maxLength={72} value={confirm} onChange={(e) => setConfirm(e.target.value)} placeholder="Ketik ulang sandi" />
           {confirm && password !== confirm && <p className="text-xs font-semibold text-amber-600">Konfirmasi sandi belum sama.</p>}
           {error && <p role="alert" className="text-sm font-semibold text-rose-600">{error}</p>}
           <Button type="submit" disabled={busy || !valid} className="w-full">{busy ? 'Menyimpan…' : 'Simpan sandi baru'}</Button>

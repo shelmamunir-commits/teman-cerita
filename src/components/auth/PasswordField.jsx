@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Eye, EyeOff } from 'lucide-react'
 
-export default function PasswordField({ label = 'Sandi', value, onChange, autoComplete, placeholder, onCapsLock, autoFocus = false }) {
+export default function PasswordField({ label = 'Sandi', value, onChange, autoComplete, placeholder, onCapsLock, autoFocus = false, minLength, maxLength }) {
   const [visible, setVisible] = useState(false)
   return (
     <label className="block text-sm font-semibold text-slate-700 dark:text-slate-200">
@@ -11,6 +11,8 @@ export default function PasswordField({ label = 'Sandi', value, onChange, autoCo
           type={visible ? 'text' : 'password'}
           autoComplete={autoComplete}
           autoFocus={autoFocus}
+          minLength={minLength}
+          maxLength={maxLength}
           value={value}
           onChange={onChange}
           onKeyUp={(event) => onCapsLock?.(event.getModifierState('CapsLock'))}

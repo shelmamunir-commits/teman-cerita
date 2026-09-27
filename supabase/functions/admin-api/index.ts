@@ -1,4 +1,4 @@
-import { authenticate, corsHeaders, errorStatus, internalEmail, json, normalizeLoginId, requirePermission, temporaryPassword } from '../_shared/common.ts'
+import { authenticate, corsHeaders, errorStatus, internalEmail, isValidPassword, json, normalizeLoginId, requirePermission, temporaryPassword } from '../_shared/common.ts'
 
 const permissionForAction: Record<string, string> = {
   'create-user': 'users.create',
@@ -24,13 +24,22 @@ async function createUser(client, actor, input) {
   if (!role) throw new Error('Role tidak valid.')
   const { data: duplicate } = await client.from('profiles').select('id').eq('school_id', actor.school_id).eq('login_id', loginId).maybeSingle()
   if (duplicate) throw new Error(`ID ${loginId} sudah terdaftar.`)
-  const password = temporaryPassword()
+  const customPassword = input.password_mode === 'custom'
+  if (customPassword && !isValidPassword(input.password)) {
+    throw new Error('Sandi custom harus terdiri dari 10–72 karakter serta mengandung huruf besar, huruf kecil, dan angka.')
+  }
+  const password = customPassword ? input.password : temporaryPassword()
+  const mustChangePassword = !customPassword
   const { data: authData, error: authError } = await client.auth.admin.createUser({ email: internalEmail(loginId), password, email_confirm: true })
   if (authError) throw authError
-  const { error: profileError } = await client.from('profiles').insert({ id: authData.user.id, school_id: actor.school_id, login_id: loginId, full_name: fullName, class_name: className || null, role_id: input.role_id })
+  const { error: profileError } = await client.from('profiles').insert({ id: authData.user.id, school_id: actor.school_id, login_id: loginId, full_name: fullName, class_name: className || null, role_id: input.role_id, must_change_password: mustChangePassword })
   if (profileError) { await client.auth.admin.deleteUser(authData.user.id); throw profileError }
-  await audit(client, actor, 'user.created', 'user', authData.user.id, { login_id: loginId })
-  return { login_id: loginId, temporary_password: password }
+  await audit(client, actor, 'user.created', 'user', authData.user.id, { login_id: loginId, password_mode: customPassword ? 'custom' : 'generated' })
+  return {
+    login_id: loginId,
+    temporary_password: customPassword ? undefined : password,
+    must_change_password: mustChangePassword,
+  }
 }
 
 Deno.serve(async (req) => {
