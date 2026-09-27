@@ -1,3 +1,11 @@
+[auth]
+site_url = "https://temanceritanura.web.id/"
+additional_redirect_urls = [
+  "https://temanceritanura.web.id/**",
+  "http://localhost:5173/**",
+  "http://127.0.0.1:5173/**",
+]
+
 [functions.bootstrap-sysadmin]
 verify_jwt = false
 
