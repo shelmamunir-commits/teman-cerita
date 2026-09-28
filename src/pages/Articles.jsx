@@ -5,7 +5,7 @@ import { Search, Clock } from 'lucide-react'
 import { ARTICLES } from '../data/articles.js'
 import { cn } from '../lib/cn.js'
 
-const CATEGORIES = ['Semua', 'Stres', 'Kecemasan', 'Suasana Hati', 'Tidur', 'Sosial', 'Bantuan']
+const CATEGORIES = ['Semua', 'Stres', 'Kecemasan', 'Suasana Hati', 'Tidur', 'Sosial', 'Spiritual', 'Bantuan']
 
 export default function Articles() {
   const [query, setQuery] = useState('')
