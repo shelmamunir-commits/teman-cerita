@@ -120,7 +120,7 @@ export const ARTICLES = [
       { type: 'p', text: 'Meminta bantuan bukan berarti kamu gagal. Justru itu langkah paling dewasa dan berani. Banyak orang menunggu terlalu lama sebelum mencari bantuan.' },
       { type: 'h', text: 'Tanda saatnya minta bantuan' },
       { type: 'list', items: ['Keluhan menetap lebih dari 2 minggu', 'Mengganggu tidur, makan, atau belajar', 'Muncul pikiran menyakiti diri', 'Merasa tidak bisa mengendalikan diri'] },
-      { type: 'p', text: 'Mulai dari guru BK atau konselor sekolah, puskesmas, atau layanan 119 ext. 8. Lebih cepat minta bantuan = lebih cepat pulih.' },
+      { type: 'p', text: 'Mulai dari pengasuh atau pendamping Pesma, puskesmas, atau layanan 119 ext. 8. Lebih cepat minta bantuan = lebih cepat pulih.' },
     ],
     references: ['Kemenkes RI — Layanan kesehatan jiwa'],
   },
@@ -148,7 +148,7 @@ export const ARTICLES = [
     blocks: [
       { type: 'p', text: 'Burnout akademik adalah kelelahan fisik dan emosional akibat tuntutan belajar yang berkepanjangan. Ini berbeda dengan sekadar malas — kamu ingin, tapi energinya habis.' },
       { type: 'h', text: 'Tandanya' },
-      { type: 'list', items: ['Kehilangan motivasi yang dulu ada', 'Sinis atau apatis terhadap sekolah', 'Merasa tidak kompeten meski sudah berusaha', 'Lelah terus meski sudah istirahat'] },
+      { type: 'list', items: ['Kehilangan motivasi yang dulu ada', 'Sinis atau apatis terhadap kuliah maupun kegiatan Pesma', 'Merasa tidak kompeten meski sudah berusaha', 'Lelah terus meski sudah istirahat'] },
       { type: 'h', text: 'Yang membantu' },
       { type: 'list', items: ['Pecah tugas menjadi langkah 20–30 menit', 'Jadwalkan waktu istirahat nyata', 'Bicara dengan guru atau orang dewasa yang dipercaya', 'Kurangi ekspektasi tidak realistis pada diri sendiri'] },
     ],

@@ -1,5 +1,5 @@
 export const MAIN_PROBLEMS = [
-  { id: 'academic', label: 'Akademik / tugas sekolah', ico: '📚', desc: 'Ujian, tugas numpuk, takut gagal' },
+  { id: 'academic', label: 'Akademik / tugas kuliah', ico: '📚', desc: 'Ujian, tugas numpuk, takut gagal' },
   { id: 'social', label: 'Pertemanan / pergaulan', ico: '🤝', desc: 'Konflik, merasa dijauhi, canggung' },
   { id: 'anxiety', label: 'Rasa cemas / khawatir', ico: '💭', desc: 'Pikiran yang muter terus' },
   { id: 'sleep', label: 'Tidur / pola istirahat', ico: '🌙', desc: 'Susah tidur, sering kebangun' },

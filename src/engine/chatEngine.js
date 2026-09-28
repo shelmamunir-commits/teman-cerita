@@ -118,7 +118,7 @@ export function chatReply(userText, context = {}) {
 
   if (matchAny(t, ['langkah konkret', 'langkah pertama', 'memilih satu prioritas'])) {
     return reply('Kita mulai dari satu area agar tidak terasa terlalu besar. Mana yang paling mendesak sekarang?', [
-      { label: 'Sekolah atau tugas', reply: 'Masalah paling mendesak adalah tugas sekolah' },
+      { label: 'Kuliah atau tugas', reply: 'Masalah paling mendesak adalah tugas kuliah' },
       { label: 'Emosi atau kecemasan', reply: 'Masalah paling mendesak adalah emosi dan kecemasan' },
       { label: 'Hubungan dengan orang lain', reply: 'Masalah paling mendesak adalah hubungan dengan orang lain' },
     ])
@@ -178,7 +178,7 @@ export function chatReply(userText, context = {}) {
     )
   }
 
-  if (matchAny(t, ['tugas', 'ujian', 'nilai', 'sekolah', 'kuliah', 'skripsi', 'belajar', 'deadline', 'menunda', 'prokrastinasi'])) {
+  if (matchAny(t, ['tugas', 'ujian', 'nilai', 'pesma', 'pondok', 'kuliah', 'skripsi', 'belajar', 'deadline', 'menunda', 'prokrastinasi'])) {
     return reply(
       'Beban belajar sering terasa seperti satu tumpukan besar. Tulis semua tugas, pilih satu yang paling dekat tenggatnya, lalu kecilkan menjadi pekerjaan 10–20 menit. Target pertamamu cukup “mulai”, bukan langsung selesai.',
       [
@@ -276,7 +276,7 @@ export function chatReply(userText, context = {}) {
 
   if (matchAny(t, ['didengar', 'cerita dulu', 'belum butuh solusi'])) {
     return reply('Aku mendengarkan. Kamu bisa mulai dari bagian yang paling mengganggu pikiranmu hari ini—apa yang terjadi, dan bagian mana yang terasa paling berat?', [
-      { label: 'Tentang sekolah', reply: 'Yang paling berat berkaitan dengan sekolah' },
+      { label: 'Tentang kuliah', reply: 'Yang paling berat berkaitan dengan kuliah' },
       { label: 'Tentang hubungan', reply: 'Yang paling berat berkaitan dengan orang lain' },
       { label: 'Sulit menjelaskannya', reply: 'Aku sulit menjelaskan apa yang kurasakan' },
     ])

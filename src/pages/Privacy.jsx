@@ -7,7 +7,7 @@ const ITEMS = [
   {
     icon: Database,
     title: 'Data akun dan skrining',
-    text: 'ID pengguna, nama, kelas, role, status akun, serta ringkasan hasil skrining disimpan di server sekolah. Santri hanya dapat melihat data miliknya; Admin melihat ringkasan sekolah; Sysadmin mengelola akun dan hak akses.',
+    text: 'ID pengguna, nama, kelas, role, status akun, serta ringkasan hasil skrining disimpan di server Pesma. Santri hanya dapat melihat data miliknya; Admin melihat ringkasan Pesma; Sysadmin mengelola akun dan hak akses.',
   },
   {
     icon: HardDrive,

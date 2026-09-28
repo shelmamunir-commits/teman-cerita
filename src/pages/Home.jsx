@@ -29,7 +29,7 @@ const FEATURES = [
 const QUICK = [
   { to: '/mood', icon: CalendarHeart, t: 'Mood tracker', d: 'Catat & pantau mood harian', permission: PERMISSIONS.WELLBEING_USE_SELF },
   { to: '/journal', icon: NotebookPen, t: 'Jurnal harian', d: 'Syukur, jadwal, catatan bebas', permission: PERMISSIONS.WELLBEING_USE_SELF },
-  { to: '/dashboard', icon: LayoutDashboard, t: 'Dashboard sekolah', d: 'Ringkasan skrining untuk petugas', permission: PERMISSIONS.DASHBOARD_READ_ALL },
+  { to: '/dashboard', icon: LayoutDashboard, t: 'Dashboard Pesma', d: 'Ringkasan skrining untuk petugas', permission: PERMISSIONS.DASHBOARD_READ_ALL },
 ]
 
 function GentleLandscape() {

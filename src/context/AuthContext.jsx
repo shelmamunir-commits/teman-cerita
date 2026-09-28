@@ -28,7 +28,7 @@ export function AuthProvider({ children }) {
     if (error || !account) {
       setProfile(null)
       setPermissions([])
-      setAccountError('Akun berhasil masuk, tetapi profil sekolah tidak dapat dimuat. Hubungi Sysadmin.')
+      setAccountError('Akun berhasil masuk, tetapi profil Pesma tidak dapat dimuat. Hubungi Sysadmin.')
       setLoading(false)
       return
     }

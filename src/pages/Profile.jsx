@@ -21,7 +21,7 @@ export default function Profile() {
     <motion.div className="mx-auto max-w-2xl" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}>
       <div className="flex items-center gap-3">
         <div className="flex h-12 w-12 items-center justify-center rounded-full bg-brand text-white"><IdCard /></div>
-        <div><h1 className="text-2xl font-bold text-slate-900 dark:text-white">Profil saya</h1><p className="text-sm text-slate-500">Identitas akun sekolah</p></div>
+        <div><h1 className="text-2xl font-bold text-slate-900 dark:text-white">Profil saya</h1><p className="text-sm text-slate-500">Identitas akun Pesma</p></div>
       </div>
       <Card className="mt-6">
         <SectionLabel>Informasi akun</SectionLabel>
@@ -39,7 +39,7 @@ export default function Profile() {
         <div className="mt-5 flex flex-wrap gap-3">
           <Button as={Link} to="/ganti-sandi" variant="secondary"><KeyRound size={16} /> Ganti sandi</Button>
           {hasPermission(PERMISSIONS.SCREENING_READ_SELF) && <Button as={Link} to="/riwayat-skrining" variant="secondary">Riwayat skrining</Button>}
-          {hasPermission(PERMISSIONS.DASHBOARD_READ_ALL) && <Button as={Link} to="/dashboard" variant="secondary">Dashboard sekolah</Button>}
+          {hasPermission(PERMISSIONS.DASHBOARD_READ_ALL) && <Button as={Link} to="/dashboard" variant="secondary">Dashboard Pesma</Button>}
           {[PERMISSIONS.USERS_READ, PERMISSIONS.ROLES_MANAGE, PERMISSIONS.USERS_IMPORT, PERMISSIONS.AUDIT_READ].some(hasPermission) && <Button as={Link} to="/sysadmin" variant="secondary">Pengelolaan sistem</Button>}
           <Button variant="secondary" onClick={signOut}><LogOut size={16} /> Keluar</Button>
         </div>

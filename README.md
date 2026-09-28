@@ -103,6 +103,6 @@ src/
 7. **Mood tracker + kalender** — tren mood tersimpan
 8. **Jurnal harian** — syukur, jadwal, catatan, riwayat
 9. **Latihan napas interaktif** — animasi 4-7-8
-10. **Dashboard sekolah** — ringkasan skrining baca-saja untuk Admin
+10. **Dashboard Pesma** — ringkasan skrining baca-saja untuk Admin
 11. **Manajemen akun & role** — halaman Sysadmin, RBAC, dan impor CSV
 12. **Dark mode**

@@ -6,7 +6,7 @@ export const SUPPORT = {
     hours: 'Panggilan suara dan chat sesuai ketersediaan konselor',
   },
   services: [
-    { name: 'Guru BK / Konselor Sekolah', desc: 'Tempat pertama yang paling dekat dan mudah diakses di sekolah.', tag: 'Paling dekat', icon: '🏫' },
+    { name: 'Pengasuh / Pendamping Pesma', desc: 'Tempat pertama yang paling dekat dan mudah diakses di Pesma.', tag: 'Paling dekat', icon: '🏠' },
     { name: 'Puskesmas Terdekat', desc: 'Pelayanan kesehatan dasar, bisa membantu menilai dan merujuk.', tag: 'Rujukan awal', icon: '🏥' },
     { name: 'Psikolog / Tenaga Profesional', desc: 'Penanganan lanjutan untuk keluhan yang menetap.', tag: 'Lebih mendalam', icon: '🧑‍⚕️' },
     { name: 'Healing119.id / 119 ext. 8', desc: 'Dukungan emosional dan pertolongan pertama psikologis dari Kementerian Kesehatan.', tag: 'Gratis', icon: '📞' },

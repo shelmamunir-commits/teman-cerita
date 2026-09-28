@@ -23,7 +23,7 @@ export default function Topbar() {
   }, [open])
 
   const accountLinks = [
-    hasPermission(PERMISSIONS.DASHBOARD_READ_ALL) && { to: '/dashboard', label: 'Dashboard sekolah', icon: LayoutDashboard },
+    hasPermission(PERMISSIONS.DASHBOARD_READ_ALL) && { to: '/dashboard', label: 'Dashboard Pesma', icon: LayoutDashboard },
     hasPermission(PERMISSIONS.SCREENING_READ_SELF) && { to: '/riwayat-skrining', label: 'Riwayat skrining', icon: ClipboardList },
     [PERMISSIONS.USERS_READ, PERMISSIONS.ROLES_MANAGE, PERMISSIONS.USERS_IMPORT, PERMISSIONS.AUDIT_READ].some(hasPermission) && { to: '/sysadmin', label: 'Pengelolaan sistem', icon: Shield },
     { to: '/profil', label: 'Profil saya', icon: UserCircle },

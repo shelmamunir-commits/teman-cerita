@@ -27,7 +27,7 @@ select results_eq('select count(*)::bigint from public.screening_submissions', a
 select lives_ok($$insert into public.screening_submissions (instrument, category) values ('Test Own Insert', 'low')$$, 'Santri dapat mengirim skrining sendiri');
 
 select set_config('request.jwt.claims', '{"sub":"10000000-0000-0000-0000-000000000002","role":"authenticated"}', true);
-select results_eq('select count(*)::bigint from public.profiles', array[3::bigint], 'Admin melihat profil satu sekolah');
+select results_eq('select count(*)::bigint from public.profiles', array[3::bigint], 'Admin melihat profil satu Pesma');
 select results_eq('select count(*)::bigint from public.screening_submissions', array[3::bigint], 'Admin melihat semua ringkasan skrining');
 select throws_ok($$insert into public.screening_submissions (instrument, category) values ('Admin Forbidden', 'low')$$, '42501', null, 'Admin baca-saja tidak dapat mengirim skrining');
 

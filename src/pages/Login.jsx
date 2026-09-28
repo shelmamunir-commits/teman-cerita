@@ -46,7 +46,7 @@ export default function Login() {
       <div className="text-center">
         <Logo className="mx-auto h-24 w-24 rounded-2xl bg-white object-contain p-1 shadow-sm" />
         <h1 className="mt-4 text-2xl font-bold text-slate-900 dark:text-white">Masuk ke Teman Cerita</h1>
-        <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">Gunakan ID yang diberikan oleh pengelola sekolah.</p>
+        <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">Gunakan ID yang diberikan oleh pengelola Pesma.</p>
       </div>
 
       <Card className="mt-6">
@@ -80,10 +80,10 @@ export default function Login() {
           </Button>
         </form>
         <p className="mt-5 flex items-start gap-2 text-xs leading-relaxed text-slate-500 dark:text-slate-400">
-          <KeyRound size={15} className="mt-0.5 shrink-0" /> Lupa sandi? Hubungi Sysadmin sekolah untuk mendapatkan sandi sementara baru.
+          <KeyRound size={15} className="mt-0.5 shrink-0" /> Lupa sandi? Hubungi Sysadmin Pesma untuk mendapatkan sandi sementara baru.
         </p>
         <div className="mt-4 border-t border-slate-100 pt-4 text-center text-xs text-slate-500 dark:border-slate-700">
-          Belum memiliki akun? Hubungi pengelola sekolah. <Link to="/help" className="font-bold text-brand-deep dark:text-brand">Lihat bantuan</Link>
+          Belum memiliki akun? Hubungi pengelola Pesma. <Link to="/help" className="font-bold text-brand-deep dark:text-brand">Lihat bantuan</Link>
         </div>
       </Card>
     </motion.div>

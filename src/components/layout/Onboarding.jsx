@@ -42,7 +42,7 @@ export default function Onboarding() {
               </p>
               <p>
                 <b className="text-slate-900 dark:text-white">Privasi datamu dibatasi.</b> Profil dan ringkasan skrining
-                akun disimpan untuk riwayat dan dashboard sekolah. Mood, jurnal, dan percakapan tetap di perangkatmu.
+                akun disimpan untuk riwayat dan dashboard Pesma. Mood, jurnal, dan percakapan tetap di perangkatmu.
                 Fitur peta memakai lokasi presisi hanya setelah kamu memberikan izin.
               </p>
               <p className="text-[12.5px] text-slate-400">

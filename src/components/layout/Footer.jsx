@@ -46,7 +46,7 @@ export default function Footer() {
                 <li><Link to="/safety" className="hover:text-rose-300">Bantuan darurat</Link></li>
                 <li><Link to="/bantu-teman" className="hover:text-white">Bantu teman</Link></li>
                 {canUseWellbeing && <li><Link to="/komunitas" className="hover:text-white">Ruang cerita</Link></li>}
-                {canViewDashboard && <li><Link to="/dashboard" className="hover:text-white">Dashboard sekolah</Link></li>}
+                {canViewDashboard && <li><Link to="/dashboard" className="hover:text-white">Dashboard Pesma</Link></li>}
                 <li><Link to="/pengaturan" className="hover:text-white">Pengaturan</Link></li>
                 <li><Link to="/privasi" className="hover:text-white">Privasi &amp; data</Link></li>
               </ul>

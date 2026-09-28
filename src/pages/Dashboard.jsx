@@ -55,7 +55,7 @@ export default function Dashboard() {
   if (selected) return <ScreeningDetail item={selected} onBack={() => setSelected(null)} />
 
   return <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}>
-    <div><h1 className="text-2xl font-bold text-slate-900 dark:text-white">Dashboard Sekolah</h1><p className="mt-2 text-sm text-slate-500 dark:text-slate-400">Ringkasan skrining untuk membantu pemantauan awal. Data ini bukan diagnosis dan dashboard bersifat baca-saja.</p></div>
+    <div><h1 className="text-2xl font-bold text-slate-900 dark:text-white">Dashboard Pesma</h1><p className="mt-2 text-sm text-slate-500 dark:text-slate-400">Ringkasan skrining untuk membantu pemantauan awal. Data ini bukan diagnosis dan dashboard bersifat baca-saja.</p></div>
     <div className="mt-6 grid grid-cols-2 gap-4 lg:grid-cols-4">{STATS.map((stat) => <div key={stat.key} className="rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-800/60"><div className="flex items-center gap-3"><div className="flex h-10 w-10 items-center justify-center rounded-lg" style={{ background: stat.bg }}><stat.icon size={20} style={{ color: stat.color }} /></div><div><div className="text-2xl font-extrabold text-slate-900 dark:text-white">{counts[stat.key]}</div><div className="text-[11px] font-semibold text-slate-500">{stat.label}</div></div></div></div>)}</div>
     <Card className="mt-6 overflow-hidden p-0">
       <div className="border-b border-slate-200 p-4 dark:border-slate-700">

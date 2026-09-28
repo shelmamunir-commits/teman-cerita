@@ -1,5 +1,5 @@
 export const HELP_LADDER = [
-  { t: 'Guru BK / konselor sekolah', d: 'Langkah pertama paling gampang dan dekat. Bisa ngobrol di sela jam sekolah.', tag: 'Paling dekat' },
+  { t: 'Pengasuh / pendamping Pesma', d: 'Langkah pertama yang paling mudah dan dekat. Bisa mengobrol saat ada waktu luang di Pesma.', tag: 'Paling dekat' },
   { t: 'Puskesmas terdekat', d: 'Layanan kesehatan dasar. Bisa bantu menilai dan merujuk ke layanan yang tepat.', tag: 'Rujukan awal' },
   { t: 'Psikolog / tenaga profesional', d: 'Penanganan lebih lanjut buat keluhan yang menetap atau mengganggu.', tag: 'Lebih mendalam' },
   { t: 'Healing119.id / 119 ext. 8', d: 'Dukungan emosional dan pertolongan pertama psikologis dari Kementerian Kesehatan melalui panggilan atau chat.', tag: 'Gratis' },

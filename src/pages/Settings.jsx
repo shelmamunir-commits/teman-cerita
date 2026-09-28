@@ -66,7 +66,7 @@ export default function Settings() {
           <span className="font-bold text-slate-900 dark:text-white">Privasi &amp; data</span>
         </div>
         <p className="mt-2 text-[13px] leading-relaxed text-slate-500 dark:text-slate-400">
-          Profil dan ringkasan skrining akun tersimpan di server sekolah. Mood, jurnal, percakapan, dan preferensi
+          Profil dan ringkasan skrining akun tersimpan di server Pesma. Mood, jurnal, percakapan, dan preferensi
           tersimpan di perangkat ini. Peta memakai lokasi presisi hanya setelah kamu memberi izin.
         </p>
         <div className="mt-4 space-y-3">
