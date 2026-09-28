@@ -17,6 +17,9 @@ export default function ProtectedRoute({ children, permission, permissions }) {
   if (profile.must_change_password && location.pathname !== '/ganti-sandi') {
     return <Navigate to="/ganti-sandi" replace />
   }
+  if (profile.roles?.system_key === 'student' && !profile.profile_completed_at && !['/profil', '/ganti-sandi'].includes(location.pathname)) {
+    return <Navigate to="/profil?lengkapi=1" replace />
+  }
   if (permission && !hasPermission(permission)) return <Navigate to="/akses-ditolak" replace state={{ from: location.pathname }} />
   if (permissions?.length && !permissions.some(hasPermission)) return <Navigate to="/akses-ditolak" replace state={{ from: location.pathname }} />
 

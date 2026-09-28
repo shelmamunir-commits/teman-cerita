@@ -17,9 +17,20 @@ async function createUser(client, actor, input) {
   const loginId = normalizeLoginId(input.login_id)
   const fullName = String(input.full_name || '').trim()
   const className = String(input.class_name || '').trim()
+  const address = String(input.address || '').trim()
+  const birthDate = String(input.birth_date || '').trim()
+  const campus = String(input.campus || '').trim()
+  const studyProgram = String(input.study_program || '').trim()
+  const guardianName = String(input.guardian_name || '').trim()
+  const guardianRelationship = String(input.guardian_relationship || '').trim()
+  const guardianPhone = String(input.guardian_phone || '').trim()
+  const semester = input.semester ? Number(input.semester) : null
   if (loginId.length < 3 || loginId.length > 50) throw new Error('ID pengguna harus terdiri dari 3–50 karakter.')
   if (fullName.length < 2 || fullName.length > 120 || !input.role_id) throw new Error('Nama 2–120 karakter dan role wajib diisi.')
   if (className.length > 80) throw new Error('Kelas maksimal 80 karakter.')
+  if (address.length > 500 || campus.length > 120 || studyProgram.length > 120 || guardianName.length > 120 || guardianRelationship.length > 50 || guardianPhone.length > 30) throw new Error('Salah satu data profil melebihi batas karakter.')
+  if (birthDate && !/^\d{4}-\d{2}-\d{2}$/.test(birthDate)) throw new Error('Tanggal lahir harus berformat YYYY-MM-DD.')
+  if (semester !== null && (!Number.isInteger(semester) || semester < 1 || semester > 20)) throw new Error('Semester harus berupa angka 1–20.')
   const { data: role } = await client.from('roles').select('id').eq('id', input.role_id).eq('school_id', actor.school_id).single()
   if (!role) throw new Error('Role tidak valid.')
   const { data: duplicate } = await client.from('profiles').select('id').eq('school_id', actor.school_id).eq('login_id', loginId).maybeSingle()
@@ -32,7 +43,23 @@ async function createUser(client, actor, input) {
   const mustChangePassword = !customPassword
   const { data: authData, error: authError } = await client.auth.admin.createUser({ email: internalEmail(loginId), password, email_confirm: true })
   if (authError) throw authError
-  const { error: profileError } = await client.from('profiles').insert({ id: authData.user.id, school_id: actor.school_id, login_id: loginId, full_name: fullName, class_name: className || null, role_id: input.role_id, must_change_password: mustChangePassword })
+  const { error: profileError } = await client.from('profiles').insert({
+    id: authData.user.id,
+    school_id: actor.school_id,
+    login_id: loginId,
+    full_name: fullName,
+    class_name: className || null,
+    address: address || null,
+    birth_date: birthDate || null,
+    campus: campus || null,
+    semester,
+    study_program: studyProgram || null,
+    guardian_name: guardianName || null,
+    guardian_relationship: guardianRelationship || null,
+    guardian_phone: guardianPhone || null,
+    role_id: input.role_id,
+    must_change_password: mustChangePassword,
+  })
   if (profileError) { await client.auth.admin.deleteUser(authData.user.id); throw profileError }
   await audit(client, actor, 'user.created', 'user', authData.user.id, { login_id: loginId, password_mode: customPassword ? 'custom' : 'generated' })
   return {
@@ -119,7 +146,20 @@ Deno.serve(async (req) => {
         try {
           const role = row.role ? byName.get(String(row.role).toLowerCase()) : studentRole
           if (!role) throw new Error('Role tidak ditemukan.')
-          const credential = await createUser(client, actor, { login_id: row.id_santri, full_name: row.nama_lengkap, class_name: row.kelas, role_id: role.id })
+          const credential = await createUser(client, actor, {
+            login_id: row.id_santri,
+            full_name: row.nama_lengkap,
+            class_name: row.kelas,
+            address: row.alamat,
+            birth_date: row.tanggal_lahir,
+            campus: row.kampus,
+            semester: row.semester,
+            study_program: row.program_studi,
+            guardian_name: row.nama_orang_tua_wali,
+            guardian_relationship: row.hubungan_orang_tua_wali,
+            guardian_phone: row.no_hp_orang_tua_wali,
+            role_id: role.id,
+          })
           credentials.push(credential); results.push({ row: row._row, status: 'created' })
         } catch (error) { results.push({ row: row._row, status: 'failed', error: error.message }) }
       }

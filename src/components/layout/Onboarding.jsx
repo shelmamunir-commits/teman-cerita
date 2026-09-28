@@ -41,8 +41,8 @@ export default function Onboarding() {
                 psikolog atau tenaga kesehatan. Hasil yang kamu lihat hanyalah gambaran awal.
               </p>
               <p>
-                <b className="text-slate-900 dark:text-white">Privasi datamu dibatasi.</b> Profil dan ringkasan skrining
-                akun disimpan untuk riwayat dan dashboard Pesma. Mood, jurnal, dan percakapan tetap di perangkatmu.
+                <b className="text-slate-900 dark:text-white">Privasi datamu dibatasi.</b> Profil santri hanya dapat dilihat
+                petugas Pesma yang berwenang; ringkasan skrining disimpan untuk riwayat dan dashboard Pesma. Mood, jurnal, dan percakapan tetap di perangkatmu.
                 Fitur peta memakai lokasi presisi hanya setelah kamu memberikan izin.
               </p>
               <p className="text-[12.5px] text-slate-400">

@@ -21,7 +21,7 @@ export function AuthProvider({ children }) {
 
     const { data: account, error } = await supabase
       .from('profiles')
-      .select('id, login_id, full_name, class_name, status, must_change_password, role_id, roles(id, name, system_key)')
+      .select('id, login_id, full_name, class_name, address, birth_date, campus, semester, study_program, guardian_name, guardian_relationship, guardian_phone, profile_completed_at, status, must_change_password, role_id, roles(id, name, system_key)')
       .eq('id', nextSession.user.id)
       .single()
 

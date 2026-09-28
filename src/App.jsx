@@ -16,6 +16,7 @@ const Help = lazy(() => import('./pages/Help.jsx'))
 const Safety = lazy(() => import('./pages/Safety.jsx'))
 const Wellbeing = lazy(() => import('./pages/Wellbeing.jsx'))
 const Dashboard = lazy(() => import('./pages/Dashboard.jsx'))
+const Students = lazy(() => import('./pages/Students.jsx'))
 const Screening = lazy(() => import('./pages/Screening.jsx'))
 const Quiz = lazy(() => import('./pages/Quiz.jsx'))
 const Articles = lazy(() => import('./pages/Articles.jsx'))
@@ -55,6 +56,7 @@ export default function App() {
         <Route path="/journal" element={<ProtectedRoute permission={PERMISSIONS.WELLBEING_USE_SELF}><Navigate to="/jurnal" replace /></ProtectedRoute>} />
         <Route path="/mood" element={<Navigate to="/jurnal?tab=tren" replace />} />
         <Route path="/dashboard" element={<ProtectedRoute permission={PERMISSIONS.DASHBOARD_READ_ALL}><Dashboard /></ProtectedRoute>} />
+        <Route path="/data-santri" element={<ProtectedRoute permission={PERMISSIONS.STUDENTS_READ}><Students /></ProtectedRoute>} />
         <Route path="/sysadmin" element={<ProtectedRoute permissions={[PERMISSIONS.USERS_READ, PERMISSIONS.ROLES_MANAGE, PERMISSIONS.USERS_IMPORT, PERMISSIONS.AUDIT_READ]}><Sysadmin /></ProtectedRoute>} />
         <Route path="/riwayat-skrining" element={<ProtectedRoute permission={PERMISSIONS.SCREENING_READ_SELF}><ScreeningHistory /></ProtectedRoute>} />
         <Route path="/screening" element={<ProtectedRoute permission={PERMISSIONS.SCREENING_CREATE_SELF}><Screening /></ProtectedRoute>} />

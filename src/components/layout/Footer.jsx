@@ -7,6 +7,7 @@ export default function Footer() {
   const { hasPermission } = useAuth()
   const canUseWellbeing = hasPermission(PERMISSIONS.WELLBEING_USE_SELF)
   const canViewDashboard = hasPermission(PERMISSIONS.DASHBOARD_READ_ALL)
+  const canViewStudents = hasPermission(PERMISSIONS.STUDENTS_READ)
   return (
     <footer className="mt-10 bg-gradient-to-br from-emerald-950 via-slate-900 to-teal-950 text-slate-300">
       <div className="mx-auto w-full px-4 sm:px-6 lg:px-10 2xl:px-16 py-10">
@@ -47,6 +48,7 @@ export default function Footer() {
                 <li><Link to="/bantu-teman" className="hover:text-white">Bantu teman</Link></li>
                 {canUseWellbeing && <li><Link to="/komunitas" className="hover:text-white">Ruang cerita</Link></li>}
                 {canViewDashboard && <li><Link to="/dashboard" className="hover:text-white">Dashboard Pesma</Link></li>}
+                {canViewStudents && <li><Link to="/data-santri" className="hover:text-white">Data santri</Link></li>}
                 <li><Link to="/pengaturan" className="hover:text-white">Pengaturan</Link></li>
                 <li><Link to="/privasi" className="hover:text-white">Privasi &amp; data</Link></li>
               </ul>

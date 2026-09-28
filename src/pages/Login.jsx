@@ -11,6 +11,7 @@ import PasswordField from '../components/auth/PasswordField'
 function landingPage(profile) {
   if (profile?.roles?.system_key === 'sysadmin') return '/sysadmin'
   if (profile?.roles?.system_key === 'admin') return '/dashboard'
+  if (profile?.roles?.system_key === 'student' && !profile.profile_completed_at) return '/profil?lengkapi=1'
   return '/'
 }
 

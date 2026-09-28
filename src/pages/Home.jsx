@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import {
   ArrowRight, FileSearch, Route, HeartPulse, NotebookPen, Bell,
-  ClipboardList, BookOpen, MessageCircle, Users, CalendarHeart, LayoutDashboard, Headphones,
+  ClipboardList, BookOpen, MessageCircle, Users, CalendarHeart, LayoutDashboard, Headphones, GraduationCap,
 } from 'lucide-react'
 import Button from '../components/ui/Button.jsx'
 import DailyCheckIn from '../components/home/DailyCheckIn.jsx'
@@ -30,6 +30,7 @@ const QUICK = [
   { to: '/mood', icon: CalendarHeart, t: 'Mood tracker', d: 'Catat & pantau mood harian', permission: PERMISSIONS.WELLBEING_USE_SELF },
   { to: '/journal', icon: NotebookPen, t: 'Jurnal harian', d: 'Syukur, jadwal, catatan bebas', permission: PERMISSIONS.WELLBEING_USE_SELF },
   { to: '/dashboard', icon: LayoutDashboard, t: 'Dashboard Pesma', d: 'Ringkasan skrining untuk petugas', permission: PERMISSIONS.DASHBOARD_READ_ALL },
+  { to: '/data-santri', icon: GraduationCap, t: 'Data Santri', d: 'Direktori profil santri Pesma', permission: PERMISSIONS.STUDENTS_READ },
 ]
 
 function GentleLandscape() {
@@ -159,7 +160,7 @@ export default function Home() {
         </p>
       </div>
 
-      <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {quickLinks.map((q) => (
           <Link
             key={q.to}

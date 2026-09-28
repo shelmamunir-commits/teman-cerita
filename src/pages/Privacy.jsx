@@ -7,7 +7,7 @@ const ITEMS = [
   {
     icon: Database,
     title: 'Data akun dan skrining',
-    text: 'ID pengguna, nama, kelas, role, status akun, serta ringkasan hasil skrining disimpan di server Pesma. Santri hanya dapat melihat data miliknya; Admin melihat ringkasan Pesma; Sysadmin mengelola akun dan hak akses.',
+    text: 'ID pengguna, nama, alamat, tanggal lahir, kelas, kampus, semester, program studi, kontak orang tua/wali, role, status akun, serta ringkasan hasil skrining disimpan di server Pesma. Santri hanya dapat mengubah profilnya sendiri; data santri hanya dapat dilihat Ustadzah, Admin, dan Sysadmin yang berwenang.',
   },
   {
     icon: HardDrive,
@@ -60,7 +60,7 @@ export default function Privacy() {
         </div>
       </Card>
 
-      <p className="mt-5 text-xs text-slate-400">Terakhir diperbarui: 21 September 2026.</p>
+      <p className="mt-5 text-xs text-slate-400">Terakhir diperbarui: 28 September 2026.</p>
     </motion.div>
   )
 }

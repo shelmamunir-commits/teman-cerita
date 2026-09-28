@@ -30,7 +30,7 @@ npm run preview   # pratinjau hasil build
 ## Menyiapkan akun dan database
 
 1. Buat proyek Supabase dan nonaktifkan pendaftaran pengguna mandiri.
-2. Jalankan migration `supabase/migrations/202609210001_auth_rbac.sql`.
+2. Jalankan seluruh migration di `supabase/migrations/` secara berurutan.
 3. Deploy Edge Functions `change-password`, `admin-api`, dan `bootstrap-sysadmin`.
 4. Atur secret `BOOTSTRAP_SECRET` pada Edge Functions.
 5. Salin `.env.example` ke `.env.local`, lalu isi Project URL dan publishable key Supabase. Variabel lama `VITE_SUPABASE_ANON_KEY` tetap didukung untuk kompatibilitas.
@@ -48,9 +48,11 @@ Endpoint akan mengembalikan sandi sementara satu kali. Login memakai ID tersebut
 Format CSV impor:
 
 ```csv
-id_santri,nama_lengkap,kelas,role
-SNT-001,Nama Santri,Kelas A,Santri
+id_santri,nama_lengkap,kelas,alamat,tanggal_lahir,kampus,semester,program_studi,nama_orang_tua_wali,hubungan_orang_tua_wali,no_hp_orang_tua_wali,role
+SNT-001,Nama Santri,Kelas A,Alamat lengkap,2005-01-31,Nama Kampus,3,Program Studi,Nama Wali,Ibu,081234567890,Santri
 ```
+
+Hanya `id_santri` dan `nama_lengkap` yang wajib saat impor. Data lainnya dapat dilengkapi oleh santri setelah login.
 
 `SUPABASE_SERVICE_ROLE_KEY` hanya digunakan otomatis di lingkungan Edge Functions dan tidak boleh dimasukkan ke `.env.local` atau frontend.
 
@@ -105,4 +107,5 @@ src/
 9. **Latihan napas interaktif** — animasi 4-7-8
 10. **Dashboard Pesma** — ringkasan skrining baca-saja untuk Admin
 11. **Manajemen akun & role** — halaman Sysadmin, RBAC, dan impor CSV
-12. **Dark mode**
+12. **Data Santri** — profil diri, akademik, dan orang tua/wali untuk Ustadzah, Admin, dan Sysadmin
+13. **Dark mode**

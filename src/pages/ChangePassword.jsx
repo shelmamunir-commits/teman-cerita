@@ -30,7 +30,7 @@ export default function ChangePassword() {
     setError('')
     try {
       await changeInitialPassword(password)
-      navigate(profile?.roles?.system_key === 'sysadmin' ? '/sysadmin' : profile?.roles?.system_key === 'admin' ? '/dashboard' : '/', { replace: true })
+      navigate(profile?.roles?.system_key === 'sysadmin' ? '/sysadmin' : profile?.roles?.system_key === 'admin' ? '/dashboard' : profile?.roles?.system_key === 'student' && !profile.profile_completed_at ? '/profil?lengkapi=1' : '/', { replace: true })
     } catch (err) {
       setError(err.message)
     } finally {
