@@ -37,6 +37,8 @@ async function createUser(client, actor, input) {
   await audit(client, actor, 'user.created', 'user', authData.user.id, { login_id: loginId, password_mode: customPassword ? 'custom' : 'generated' })
   return {
     login_id: loginId,
+    full_name: fullName,
+    password,
     temporary_password: customPassword ? undefined : password,
     must_change_password: mustChangePassword,
   }

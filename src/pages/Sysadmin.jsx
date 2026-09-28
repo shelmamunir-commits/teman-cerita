@@ -79,7 +79,7 @@ export default function Sysadmin() {
     try {
       const result = await adminAction('reset-password', { user_id: pendingReset.id })
       setPendingReset(null)
-      setCredentials([{ login_id: pendingReset.login_id, temporary_password: result.temporary_password }])
+      setCredentials([{ login_id: pendingReset.login_id, full_name: pendingReset.full_name, password: result.temporary_password }])
       setNotice(`Sandi sementara untuk ${pendingReset.full_name} berhasil dibuat.`)
       await load()
     } catch (err) {
@@ -114,7 +114,7 @@ export default function Sysadmin() {
         </>
       )}
 
-      <UserForm open={userModal} user={editingUser} currentUserId={currentUser?.id} roles={roles} onClose={() => setUserModal(false)} onSaved={async (result) => { setUserModal(false); setNotice(editingUser?.id ? 'Data pengguna berhasil diperbarui.' : result?.must_change_password ? 'Pengguna dibuat dengan sandi otomatis dan wajib menggantinya saat login.' : 'Pengguna dibuat dengan sandi custom dan dapat langsung digunakan.'); if (result?.temporary_password) setCredentials([{ login_id: result.login_id, temporary_password: result.temporary_password }]); await load() }} />
+      <UserForm open={userModal} user={editingUser} currentUserId={currentUser?.id} roles={roles} onClose={() => setUserModal(false)} onSaved={async (result) => { setUserModal(false); setNotice(editingUser?.id ? 'Data pengguna berhasil diperbarui.' : result?.must_change_password ? 'Pengguna dibuat dengan sandi otomatis dan wajib menggantinya saat login.' : 'Pengguna dibuat dengan sandi custom dan dapat langsung digunakan.'); if (result?.password) setCredentials([{ login_id: result.login_id, full_name: result.full_name, password: result.password }]); await load() }} />
       <RoleForm open={roleModal} role={editingRole} permissions={permissions} onClose={() => setRoleModal(false)} onSaved={async () => { setRoleModal(false); setNotice('Role dan permission berhasil disimpan.'); await load() }} />
       <Modal open={Boolean(pendingReset)} onClose={() => setPendingReset(null)} title="Reset sandi pengguna?">
         <p className="text-sm leading-relaxed text-slate-600 dark:text-slate-300">Sandi lama <b>{pendingReset?.full_name}</b> akan langsung tidak berlaku. Pengguna akan memperoleh sandi sementara baru dan wajib menggantinya saat login.</p>
@@ -268,16 +268,48 @@ function ImportPanel({ roles, onImported, setError }) {
   const [rows, setRows] = useState([])
   const [busy, setBusy] = useState(false)
   const [results, setResults] = useState([])
+  const [progress, setProgress] = useState(null)
   const roleNames = useMemo(() => new Set(roles.map((role) => role.name.toLowerCase())), [roles])
   const issues = rows.flatMap((row) => { const found = []; if (!row.id_santri) found.push(`Baris ${row._row}: id_santri kosong`); if (!row.nama_lengkap) found.push(`Baris ${row._row}: nama_lengkap kosong`); if (row.role && !roleNames.has(row.role.toLowerCase())) found.push(`Baris ${row._row}: role tidak dikenal`); return found })
   const pick = async (event) => { const file = event.target.files?.[0]; if (!file) return; setResults([]); setRows(parseCsv(await file.text())) }
-  const importRows = async () => { setBusy(true); setError(''); try { const result = await adminAction('import-users', { rows }); setResults(result.results || []); onImported(result.credentials || []); setRows([]) } catch (err) { setError(err.message) } finally { setBusy(false) } }
+  const importRows = async () => {
+    setBusy(true)
+    setError('')
+    setResults([])
+    setProgress({ processed: 0, total: rows.length })
+    const allCredentials = []
+    const allResults = []
+    const batchSize = 10
+    try {
+      for (let start = 0; start < rows.length; start += batchSize) {
+        const batch = rows.slice(start, start + batchSize)
+        try {
+          const result = await adminAction('import-users', { rows: batch })
+          allCredentials.push(...(result.credentials || []))
+          allResults.push(...(result.results || []))
+        } catch (err) {
+          allResults.push(...batch.map((row) => ({ row: row._row, status: 'failed', error: err.message })))
+        }
+        setProgress({ processed: Math.min(start + batch.length, rows.length), total: rows.length })
+      }
+      setResults(allResults)
+      setRows([])
+      if (allCredentials.length) onImported(allCredentials)
+      if (allResults.every((item) => item.status === 'failed')) setError('Tidak ada akun yang berhasil dibuat. Periksa rincian hasil impor.')
+    } finally {
+      setBusy(false)
+      setProgress(null)
+    }
+  }
   const template = () => downloadCsv('template-import-pengguna.csv', [['id_santri', 'nama_lengkap', 'kelas', 'role'], ['SNT-001', 'Nama Santri', 'Kelas A', 'Santri']])
-  return <Card className="mt-4"><h2 className="font-bold text-slate-900 dark:text-white">Impor daftar pengguna</h2><p className="mt-2 text-sm text-slate-500">Gunakan CSV UTF-8. Kolom wajib: <b>id_santri</b> dan <b>nama_lengkap</b>. Role kosong menjadi Santri.</p><div className="mt-4 flex flex-wrap gap-3"><Button variant="secondary" onClick={template}><Download size={16} /> Unduh template</Button><label className="inline-flex cursor-pointer items-center gap-2 rounded-full bg-brand px-6 py-3 text-sm font-semibold text-white"><FileUp size={16} /> Pilih CSV<input type="file" accept=".csv,text/csv" onChange={pick} className="hidden" /></label></div>{rows.length > 0 && <div className="mt-5"><div className="rounded-xl bg-slate-50 p-3 text-sm dark:bg-slate-900"><b>{rows.length}</b> baris siap diperiksa. {issues.length ? <span className="text-rose-600">Ada {issues.length} masalah.</span> : <span className="text-emerald-600">Validasi awal berhasil.</span>}</div>{issues.length > 0 && <ul className="mt-3 space-y-1 text-xs text-rose-600">{issues.slice(0, 20).map((issue) => <li key={issue}>• {issue}</li>)}</ul>}<Button onClick={importRows} disabled={busy || issues.length > 0} className="mt-4">{busy ? 'Mengimpor…' : `Impor ${rows.length} pengguna`}</Button></div>}{results.length > 0 && <div className="mt-5 rounded-xl border border-slate-200 p-4 text-sm dark:border-slate-700"><b>Hasil impor: {results.filter((item) => item.status === 'created').length} berhasil, {results.filter((item) => item.status === 'failed').length} gagal.</b>{results.some((item) => item.status === 'failed') && <ul className="mt-3 space-y-1 text-xs text-rose-600">{results.filter((item) => item.status === 'failed').map((item) => <li key={item.row}>• Baris {item.row}: {item.error}</li>)}</ul>}</div>}</Card>
+  return <Card className="mt-4"><h2 className="font-bold text-slate-900 dark:text-white">Impor daftar pengguna</h2><p className="mt-2 text-sm text-slate-500">Gunakan CSV UTF-8. Kolom wajib: <b>id_santri</b> dan <b>nama_lengkap</b>. Role kosong menjadi Santri.</p><div className="mt-4 flex flex-wrap gap-3"><Button variant="secondary" onClick={template}><Download size={16} /> Unduh template</Button><label className="inline-flex cursor-pointer items-center gap-2 rounded-full bg-brand px-6 py-3 text-sm font-semibold text-white"><FileUp size={16} /> Pilih CSV<input type="file" accept=".csv,text/csv" onChange={pick} className="hidden" /></label></div>{rows.length > 0 && <div className="mt-5"><div className="rounded-xl bg-slate-50 p-3 text-sm dark:bg-slate-900"><b>{rows.length}</b> baris siap diperiksa. {issues.length ? <span className="text-rose-600">Ada {issues.length} masalah.</span> : <span className="text-emerald-600">Validasi awal berhasil.</span>}</div>{issues.length > 0 && <ul className="mt-3 space-y-1 text-xs text-rose-600">{issues.slice(0, 20).map((issue) => <li key={issue}>• {issue}</li>)}</ul>}<Button onClick={importRows} disabled={busy || issues.length > 0} className="mt-4">{busy && progress ? `Mengimpor ${progress.processed}/${progress.total}…` : `Impor ${rows.length} pengguna`}</Button></div>}{results.length > 0 && <div className="mt-5 rounded-xl border border-slate-200 p-4 text-sm dark:border-slate-700"><b>Hasil impor: {results.filter((item) => item.status === 'created').length} berhasil, {results.filter((item) => item.status === 'failed').length} gagal.</b>{results.some((item) => item.status === 'failed') && <ul className="mt-3 space-y-1 text-xs text-rose-600">{results.filter((item) => item.status === 'failed').map((item) => <li key={item.row}>• Baris {item.row}: {item.error}</li>)}</ul>}</div>}</Card>
 }
 
 function AuditPanel({ rows }) { return <Card className="mt-4 p-0"><div className="divide-y divide-slate-100 dark:divide-slate-800">{rows.map((row) => <div key={row.id} className="p-4 text-sm"><div className="flex justify-between gap-4"><b className="text-slate-900 dark:text-white">{row.action}</b><time className="text-xs text-slate-400">{new Date(row.created_at).toLocaleString('id-ID')}</time></div><p className="mt-1 text-xs text-slate-500">Oleh {row.actor?.full_name || 'Sistem'} · {row.target_type} {row.target_id || ''}</p></div>)}{!rows.length && <p className="p-8 text-center text-sm text-slate-400">Belum ada aktivitas.</p>}</div></Card> }
 
 function downloadCsv(filename, rows) { const csv = rows.map((row) => row.map((value) => `"${String(value ?? '').replace(/"/g, '""')}"`).join(',')).join('\n'); const url = URL.createObjectURL(new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8' })); const link = document.createElement('a'); link.href = url; link.download = filename; link.click(); URL.revokeObjectURL(url) }
 
-function CredentialsModal({ rows, onClose }) { return <Modal open={rows.length > 0} onClose={onClose} title="Sandi sementara"><p className="text-sm text-amber-700 dark:text-amber-300">Unduh sekarang. Sandi ini tidak dapat ditampilkan kembali.</p><div className="mt-4 max-h-64 overflow-auto rounded-xl bg-slate-50 p-3 font-mono text-xs dark:bg-slate-900">{rows.map((row) => <div key={row.login_id} className="flex justify-between gap-4 py-1"><span>{row.login_id}</span><b>{row.temporary_password}</b></div>)}</div><Button className="mt-4 w-full" onClick={() => downloadCsv('akun-sementara.csv', [['id_pengguna', 'sandi_sementara'], ...rows.map((row) => [row.login_id, row.temporary_password])])}><Download size={16} /> Unduh CSV</Button></Modal> }
+function CredentialsModal({ rows, onClose }) {
+  const credentials = rows.map((row) => ({ ...row, password: row.password || row.temporary_password || '' }))
+  return <Modal open={rows.length > 0} onClose={onClose} title="Daftar akun yang dibuat"><p className="text-sm text-amber-700 dark:text-amber-300">Unduh sekarang. Password hanya ditampilkan pada saat akun dibuat atau direset dan tidak dapat ditampilkan kembali.</p><div className="mt-4 max-h-64 overflow-auto rounded-xl bg-slate-50 p-3 text-xs dark:bg-slate-900">{credentials.map((row) => <div key={row.login_id} className="grid grid-cols-[minmax(0,1fr)_minmax(0,1.5fr)] gap-4 border-b border-slate-200 py-2 last:border-0 dark:border-slate-700"><span><b className="block truncate text-slate-900 dark:text-white">{row.full_name || '—'}</b><span className="font-mono text-slate-500">{row.login_id}</span></span><b className="self-center break-all text-right font-mono">{row.password}</b></div>)}</div><Button className="mt-4 w-full" onClick={() => downloadCsv('daftar-akun.csv', [['id', 'nama_lengkap', 'password'], ...credentials.map((row) => [row.login_id, row.full_name, row.password])])}><Download size={16} /> Unduh daftar akun (CSV)</Button></Modal>
+}
